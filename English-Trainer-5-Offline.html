@@ -1,0 +1,1129 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}</style></head><body>
+<title>English Trainer 5 Offline</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+<style>
+/* Layout: one 640px column like an exercise book, bottom tab bar; Green Line green as accent, pillar-box red only on the play button */
+:root{
+  --bg:#ECF1EE; --surface:#FFFFFF; --surface-2:#F3F7F4; --ink:#14211B; --ink-2:#43544B; --ink-3:#73847A;
+  --line:#D3DED7; --accent:#1D6B52; --accent-ink:#FFFFFF; --accent-soft:#D7EBE2;
+  --red:#C23B2E; --red-ink:#FFFFFF; --paper:#FBFCF6; --rule:#C9DCEB; --margin:#E8A3A3;
+  --good:#1E7A4C; --good-soft:#DDF1E6; --bad:#B23A3A; --bad-soft:#F7E0E0; --warn-soft:#FFF2CC;
+  --display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",-apple-system,system-ui,sans-serif;
+  --en:"Literata",Georgia,"Times New Roman",serif;
+  --radius:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme:dark; --bg:#0E1512; --surface:#16211C; --surface-2:#1C2A24; --ink:#E6EFEA; --ink-2:#B1C2B8; --ink-3:#85978C;
+  --line:#2A3A33; --accent:#6CC6A2; --accent-ink:#0E1512; --accent-soft:#1D3A2F;
+  --red:#F07A6C; --red-ink:#1A0E0C; --paper:#18241F; --rule:#24384A; --margin:#5A2E2E;
+  --good:#6FCF9B; --good-soft:#173527; --bad:#F08A8A; --bad-soft:#3E1F22; --warn-soft:#3A3318;}}
+:root[data-theme="dark"]{
+  color-scheme:dark; --bg:#0E1512; --surface:#16211C; --surface-2:#1C2A24; --ink:#E6EFEA; --ink-2:#B1C2B8; --ink-3:#85978C;
+  --line:#2A3A33; --accent:#6CC6A2; --accent-ink:#0E1512; --accent-soft:#1D3A2F;
+  --red:#F07A6C; --red-ink:#1A0E0C; --paper:#18241F; --rule:#24384A; --margin:#5A2E2E;
+  --good:#6FCF9B; --good-soft:#173527; --bad:#F08A8A; --bad-soft:#3E1F22; --warn-soft:#3A3318;}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{background:var(--bg)}
+body{font-family:var(--body);color:var(--ink);font-size:16px;line-height:1.45;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 calc(84px + env(safe-area-inset-bottom,0px));-webkit-text-size-adjust:100%}
+.wrap{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:16px;padding-block:14px 8px}
+header.top{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.brand{font-family:var(--display);font-weight:800;font-size:23px;letter-spacing:-.01em;color:var(--accent)}
+.brand small{display:block;font-family:var(--body);font-weight:400;font-size:12px;letter-spacing:.03em;color:var(--ink-3)}
+.sync{font-size:12px;color:var(--ink-3);white-space:nowrap}
+h2{font-family:var(--display);font-weight:800;font-size:21px;letter-spacing:-.01em;margin:0;text-wrap:balance}
+h3{font-size:13px;margin:0;color:var(--ink-2);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+p{margin:0}
+.muted{color:var(--ink-3);font-size:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.stack{display:flex;flex-direction:column;gap:10px;min-width:0}
+button,.btn{font:inherit;font-weight:700;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:12px;padding:12px 16px;min-height:46px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;-webkit-tap-highlight-color:transparent;text-decoration:none}
+button.primary,.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button.good{background:var(--good-soft);color:var(--good);border-color:transparent}
+button.bad{background:var(--bad-soft);color:var(--bad);border-color:transparent}
+button.ghost{background:transparent}
+button.small,.btn.small{min-height:36px;padding:6px 12px;font-size:14px}
+button:disabled{opacity:.45;cursor:default}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,label.chip:focus-within,.seg label:focus-within,.opt:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+.grow{flex:1 1 0;min-width:0}
+input[type=text],input[type=number],textarea,select{font:inherit;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;min-height:44px}
+textarea{min-height:90px;resize:vertical}
+label.lbl{font-size:13px;color:var(--ink-2);font-weight:700;display:flex;flex-direction:column;gap:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+label.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface-2);border-radius:999px;padding:8px 14px;font-size:14px;cursor:pointer;user-select:none;position:relative}
+label.chip input{position:absolute;opacity:0;pointer-events:none}
+label.chip:has(input:checked){background:var(--accent-soft);border-color:var(--accent);font-weight:700}
+.seg{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.seg label{flex:1;text-align:center;padding:10px 6px;font-size:14px;cursor:pointer;background:var(--surface-2);position:relative}
+.seg label+label{border-left:1px solid var(--line)}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label:has(input:checked){background:var(--accent);color:var(--accent-ink);font-weight:700}
+.subnav{display:flex;gap:8px}
+.subnav button{flex:1;min-height:40px;font-size:15px}
+.subnav button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:flex;justify-content:center;padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px));z-index:10}
+nav.tabs .in{display:flex;width:100%;max-width:640px}
+nav.tabs button{flex:1;background:transparent;border:0;flex-direction:column;gap:2px;font-size:12px;font-weight:700;color:var(--ink-3);min-height:54px;padding:4px 2px;min-width:0}
+nav.tabs button svg{width:24px;height:24px}
+nav.tabs button[aria-current="page"]{color:var(--accent)}
+
+/* quiz */
+.progress{height:6px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+.progress>i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.qmeta{display:flex;justify-content:space-between;font-size:13px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.flash{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 18px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center;
+  background-image:linear-gradient(90deg,transparent 30px,var(--margin) 30px,var(--margin) 31px,transparent 31px)}
+.flash .dir{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);font-weight:700}
+.flash .word{font-family:var(--en);font-size:32px;font-weight:600;line-height:1.15;overflow-wrap:anywhere}
+.flash .word.de{font-family:var(--body);font-size:27px;font-weight:700}
+.answer{border:2px dashed var(--line);border-radius:12px;padding:14px;text-align:center;font-size:20px;font-weight:700;overflow-wrap:anywhere;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
+.answer.en{font-family:var(--en);font-size:24px;font-weight:600}
+.yours{font-size:14px;color:var(--ink-2);text-align:center}
+.match{color:var(--good);font-weight:700}
+.say{min-height:36px;width:36px;padding:0;border-radius:50%;flex:0 0 auto}
+.say svg{width:18px;height:18px}
+.play{width:76px;height:76px;border-radius:50%;background:var(--red);color:var(--red-ink);border:0;padding:0;flex:0 0 auto}
+.play svg{width:32px;height:32px}
+.play.on{animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.06)}}
+
+.result{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.stamp{flex:0 0 auto;width:100px;height:100px;border-radius:50%;border:4px solid var(--accent);display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-7deg);color:var(--accent)}
+.stamp b{font-family:var(--display);font-size:44px;line-height:1}
+.stamp span{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.stamp.g1,.stamp.g2{color:var(--good);border-color:var(--good)}
+.stamp.g5,.stamp.g6{color:var(--bad);border-color:var(--bad)}
+.miss{display:flex;flex-direction:column;gap:6px}
+.miss div{display:flex;justify-content:space-between;gap:12px;padding:8px 10px;background:var(--bad-soft);border-radius:8px;font-size:15px}
+.miss div b{font-family:var(--en);font-size:17px}
+
+.vtable{width:100%;border-collapse:collapse;font-size:15px}
+.vtable td{padding:6px 4px;border-bottom:1px solid var(--line);vertical-align:top}
+.vtable input{min-height:38px;padding:6px 8px}
+.vtable td.x{width:40px;text-align:right}
+.scroll{overflow-x:auto}
+.listitem{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.listitem:last-child{border-bottom:0}
+.listitem .name{font-weight:700}
+.badge{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--accent-soft);color:var(--ink-2);border-radius:6px;padding:2px 6px;white-space:nowrap}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap}
+.thumbs img{width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+
+/* exercise book paper for English texts */
+.paper{font-family:var(--en);font-size:19px;line-height:32px;background-color:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:12px 16px 12px 44px;
+  background-image:linear-gradient(90deg,transparent 30px,var(--margin) 30px,var(--margin) 31px,transparent 31px),repeating-linear-gradient(180deg,transparent 0 31px,var(--rule) 31px 32px);background-position:0 0,0 11px}
+.paper .ttl{font-family:var(--display);font-weight:800;font-size:18px;display:block;color:var(--accent)}
+.paper p+p{margin-top:0}
+.paper p{text-indent:0}
+.dialog{display:flex;flex-direction:column}
+.dialog .ln{display:flex;gap:8px;align-items:flex-start;border-radius:6px}
+.dialog .ln.cur{background:var(--warn-soft)}
+.dialog .who{font-family:var(--body);font-weight:700;font-size:15px;color:var(--ink-2);flex:0 0 auto;min-width:64px}
+.dialog .tx{min-width:0;overflow-wrap:anywhere}
+.qlist{display:flex;flex-direction:column;gap:16px}
+.q{display:flex;flex-direction:column;gap:8px}
+.q .qt{font-family:var(--en);font-size:18px;font-weight:600}
+.q .qt .n{font-family:var(--body);color:var(--ink-3);font-weight:700;font-size:14px;margin-right:6px;font-variant-numeric:tabular-nums}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:9px 14px;cursor:pointer;font-family:var(--en);font-size:17px;position:relative}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt:has(input:checked){border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.opt.right{border-color:var(--good);background:var(--good-soft);color:var(--good);font-weight:600}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft);color:var(--bad);text-decoration:line-through}
+.model{background:var(--good-soft);border-radius:10px;padding:10px 12px;font-family:var(--en);font-size:17px}
+.feedback{font-size:14px;color:var(--ink-2)}
+.player{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.player .info{display:flex;flex-direction:column;gap:6px;min-width:0;flex:1 1 180px}
+
+/* grammar */
+.unitgrp{display:flex;flex-direction:column;gap:8px}
+.unitgrp .uh{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.unitgrp .uh b{font-family:var(--display);font-weight:800;font-size:16px}
+.topics{display:flex;flex-wrap:wrap;gap:8px}
+.topics button{font-weight:400;font-size:15px;min-height:40px;padding:8px 12px}
+.topics button .done{color:var(--good);font-weight:700}
+.rule{background:var(--surface-2);border-radius:12px;padding:14px;font-size:15px;line-height:1.55;display:flex;flex-direction:column;gap:8px}
+.rule ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.rule .ex{font-family:var(--en);font-size:16.5px}
+.rule .ex b{color:var(--accent)}
+.gaps{display:flex;flex-direction:column;gap:12px;counter-reset:g}
+.gap{display:flex;gap:10px;align-items:baseline;font-family:var(--en);font-size:18px;line-height:1.9;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.gap:last-child{border-bottom:0}
+.gap .n{font-family:var(--body);font-size:14px;color:var(--ink-3);font-weight:700;font-variant-numeric:tabular-nums;flex:0 0 22px}
+.gap .s{min-width:0;flex:1}
+.gap input[type=text],.gap select{display:inline-block;width:auto;min-width:96px;max-width:100%;min-height:36px;padding:4px 8px;font-family:var(--en);font-size:17px;border-width:0 0 2px;border-radius:6px 6px 0 0;vertical-align:baseline}
+.gap input.ok,.gap select.ok{border-color:var(--good);background:var(--good-soft)}
+.gap input.no,.gap select.no{border-color:var(--bad);background:var(--bad-soft)}
+.gap .fix{font-family:var(--body);font-size:14px;color:var(--good);font-weight:700;margin-left:6px}
+.spin{width:18px;height:18px;border:3px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .8s linear infinite;flex:0 0 auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.spin{animation-duration:3s}.progress>i{transition:none}.play.on{animation:none}}
+
+.gtable{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.gtable th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);text-align:left;padding:6px 4px}
+.gtable td{padding:8px 4px;border-top:1px solid var(--line);vertical-align:middle}
+.gtable td.n{font-family:var(--display);font-weight:800;font-size:22px;width:44px}
+.gtable td.range{color:var(--ink-2);font-size:14px}
+.gtable input{width:84px;text-align:center}
+.warn{color:var(--bad);font-size:14px}
+.hist{display:flex;flex-direction:column}
+.hist .h{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;font-variant-numeric:tabular-nums}
+.hist .h:last-child{border-bottom:0}
+.hist .g{font-family:var(--display);font-weight:800;font-size:21px;width:30px;text-align:center}
+.links{display:flex;flex-direction:column;gap:8px}
+.links a{color:var(--accent);font-weight:700}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;z-index:20;max-width:calc(100% - 32px)}
+.confirm{background:var(--bad-soft);border-radius:10px;padding:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:14px}
+.note{background:var(--warn-soft);border-radius:10px;padding:10px 12px;font-size:14px}
+details summary{cursor:pointer}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">English Trainer<small>Klasse 5 · passend zu Green Line 1 Bayern · Offline-Version</small></div>
+    <div class="sync" id="sync">auf diesem Gerät gespeichert</div>
+  </header>
+  <section id="v-vocab" class="stack"></section>
+  <section id="v-listen" class="stack" hidden></section>
+  <section id="v-read" class="stack" hidden></section>
+  <section id="v-gram" class="stack" hidden></section>
+  <section id="v-grades" class="stack" hidden></section>
+</div>
+
+<nav class="tabs" aria-label="Bereiche"><div class="in">
+  <button data-tab="vocab" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 10h6M7 14h10"/></svg>Vokabeln</button>
+  <button data-tab="listen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg>Hören</button>
+  <button data-tab="read"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.5C5.5 4 9 4 12 6c3-2 6.5-2 9-.5V19c-2.5-1.5-6-1.5-9 .5-3-2-6.5-2-9-.5z"/><path d="M12 6v13.5"/></svg>Lesen</button>
+  <button data-tab="gram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 9 5h2l5 15M6 15h8"/><path d="M17 11h4M19 9v4"/></svg>Grammatik</button>
+  <button data-tab="grades"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5"/><path d="M8.5 13 7 21l5-3 5 3-1.5-8"/></svg>Noten</button>
+</div></nav>
+
+<script>
+(() => {
+"use strict";
+const OFFLINE = true;
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const GRADE_NAMES = {1:"sehr gut",2:"gut",3:"befriedigend",4:"ausreichend",5:"mangelhaft",6:"ungenügend"};
+const ICON_SAY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg>';
+const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>';
+const ICON_STOP = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6.5" y="6.5" width="11" height="11" rx="1.5"/></svg>';
+
+/* ---------- Green Line 1 Bayern: units ---------- */
+const UNITS = [
+  {n:1, t:"It's fun at home", topic:"Haus und Wohnung, Zimmer, Möbel, Familie", gram:"to be, there is/there are, have got/has got, Plural der Nomen"},
+  {n:2, t:"I'm new at TTS", topic:"neue Schule in London (Greenwich), Schulfächer, Schulsachen, Stundenplan", gram:"can/can't, Possessivbegleiter (my, your, his, her …), s-Genitiv"},
+  {n:3, t:"I like my busy days", topic:"Tagesablauf, Uhrzeit, Freizeit, Menschen beschreiben", gram:"simple present (Aussagesätze), Häufigkeitsadverbien, Satzstellung"},
+  {n:4, t:"Let's do something fun", topic:"Freizeit, Ausflüge in Greenwich und London, Sehenswürdigkeiten", gram:"simple present: Verneinung und Fragen mit do/does, Objektpronomen, Fragewörter"},
+  {n:5, t:"Let's go shopping", topic:"Einkaufen, Kleidung, Geld (pounds), Geschenke, Markt", gram:"present progressive, simple present vs. present progressive, some/any, much/many/a lot of"},
+  {n:6, t:"It's my party", topic:"Geburtstag, Party, Einladung, Essen, Erlebnisse", gram:"simple past (was/were, regelmäßige und unregelmäßige Verben, Verneinung, Fragen)"}
+];
+const unitLabel = n => `Unit ${n}: ${UNITS[n-1].t}`;
+
+/* ---------- example vocabulary (own word lists by topic, not the book's list) ---------- */
+const EXAMPLES = [
+  {id:"ex1", example:true, name:"Beispiel Unit 1 · home", created:1, words:[
+    {en:"house",de:"Haus"},{en:"flat",de:"Wohnung"},{en:"kitchen",de:"Küche"},{en:"bedroom",de:"Schlafzimmer"},{en:"bathroom",de:"Badezimmer"},{en:"living room",de:"Wohnzimmer"},{en:"garden",de:"Garten"},{en:"stairs",de:"Treppe"},{en:"window",de:"Fenster"},{en:"door",de:"Tür"},{en:"upstairs",de:"oben, nach oben"},{en:"downstairs",de:"unten, nach unten"},{en:"next to",de:"neben"},{en:"behind",de:"hinter"}]},
+  {id:"ex2", example:true, name:"Beispiel Unit 2 · school", created:2, words:[
+    {en:"classroom",de:"Klassenzimmer"},{en:"teacher",de:"Lehrer, Lehrerin"},{en:"timetable",de:"Stundenplan"},{en:"break",de:"Pause"},{en:"subject",de:"Schulfach"},{en:"pencil case",de:"Federmäppchen"},{en:"ruler",de:"Lineal"},{en:"rubber",de:"Radiergummi"},{en:"homework",de:"Hausaufgaben"},{en:"uniform",de:"Uniform"},{en:"library",de:"Bücherei, Bibliothek"},{en:"to learn",de:"lernen"},{en:"easy",de:"leicht, einfach"},{en:"difficult",de:"schwierig"}]},
+  {id:"ex3", example:true, name:"Beispiel Unit 3 · my day", created:3, words:[
+    {en:"to get up",de:"aufstehen"},{en:"breakfast",de:"Frühstück"},{en:"to have lunch",de:"zu Mittag essen"},{en:"always",de:"immer"},{en:"usually",de:"normalerweise, meistens"},{en:"often",de:"oft"},{en:"sometimes",de:"manchmal"},{en:"never",de:"nie"},{en:"quarter past",de:"Viertel nach"},{en:"half past",de:"halb (+ nächste Stunde)"},{en:"o'clock",de:"Uhr (volle Stunde)"},{en:"busy",de:"beschäftigt"},{en:"tired",de:"müde"},{en:"face",de:"Gesicht"}]},
+  {id:"ex4", example:true, name:"Beispiel Unit 4 · fun", created:4, words:[
+    {en:"to visit",de:"besuchen"},{en:"museum",de:"Museum"},{en:"boat",de:"Boot"},{en:"river",de:"Fluss"},{en:"ticket",de:"Fahrkarte, Eintrittskarte"},{en:"exciting",de:"aufregend, spannend"},{en:"boring",de:"langweilig"},{en:"to go swimming",de:"schwimmen gehen"},{en:"weekend",de:"Wochenende"},{en:"together",de:"zusammen"},{en:"to watch",de:"ansehen, zuschauen"},{en:"map",de:"Landkarte, Stadtplan"}]},
+  {id:"ex5", example:true, name:"Beispiel Unit 5 · shopping", created:5, words:[
+    {en:"shop",de:"Laden, Geschäft"},{en:"market",de:"Markt"},{en:"money",de:"Geld"},{en:"expensive",de:"teuer"},{en:"cheap",de:"billig"},{en:"How much is it?",de:"Wie viel kostet es?"},{en:"to try on",de:"anprobieren"},{en:"jacket",de:"Jacke"},{en:"shoes",de:"Schuhe"},{en:"present",de:"Geschenk"},{en:"to pay",de:"bezahlen"},{en:"pound",de:"Pfund"}]},
+  {id:"ex6", example:true, name:"Beispiel Unit 6 · party", created:6, words:[
+    {en:"birthday",de:"Geburtstag"},{en:"to invite",de:"einladen"},{en:"invitation",de:"Einladung"},{en:"guest",de:"Gast"},{en:"cake",de:"Kuchen"},{en:"candle",de:"Kerze"},{en:"to bring",de:"(mit)bringen"},{en:"to dance",de:"tanzen"},{en:"yesterday",de:"gestern"},{en:"last week",de:"letzte Woche"},{en:"ago",de:"vor (zeitlich)"},{en:"to forget",de:"vergessen"}]}
+];
+
+/* ---------- grammar topics ---------- */
+const G = [
+ {id:"be", u:1, t:"to be: am, is, are",
+  r:`<p>Die Formen von <b>to be</b> (sein):</p><ul><li class="ex">I <b>am</b> · you <b>are</b> · he/she/it <b>is</b> · we/you/they <b>are</b></li></ul><p>Kurzformen: I'm, you're, he's – Verneinung: <span class="ex">isn't, aren't, I'm not</span>.</p><p>Frage: das Verb kommt nach vorne.</p><ul><li class="ex"><b>Are</b> you eleven? – Yes, I am. / No, I'm not.</li></ul>`,
+  x:[{s:"I ___ eleven years old.",a:["am"]},{s:"My friends ___ from London.",a:["are"]},{s:"___ you new at this school?",a:["Are"]},{s:"Our classroom ___ on the first floor.",a:["is"]},{s:"We ___ (not) late today.",a:["aren't","are not"]},{s:"Sam ___ (not) at home – he's at football.",a:["isn't","is not"]},{s:"___ your dad a teacher? – Yes, he is.",a:["Is"]},{s:"Are they in the garden? – No, they ___.",a:["aren't","are not"]}]},
+ {id:"there", u:1, t:"there is / there are",
+  r:`<p><b>There is</b> + Einzahl, <b>there are</b> + Mehrzahl = <i>es gibt, da ist, da sind</i>.</p><ul><li class="ex"><b>There is</b> a sofa in the living room.</li><li class="ex"><b>There are</b> two beds in my room.</li></ul><p>Verneinung: <span class="ex">there isn't / there aren't</span>. Frage: <span class="ex">Is there …? Are there …?</span> – Kurzantwort: <span class="ex">Yes, there is. / No, there aren't.</span></p>`,
+  x:[{s:"There ___ a big bed in my room.",o:["is","are"],a:["is"]},{s:"There ___ three windows in the kitchen.",o:["is","are"],a:["are"]},{s:"___ there a garden behind your house?",o:["Is","Are"],a:["Is"]},{s:"There ___ (not) any chairs in the hall.",a:["aren't","are not"]},{s:"There ___ (not) a TV in my bedroom.",a:["isn't","is not"]},{s:"___ there two bathrooms in your flat?",o:["Is","Are"],a:["Are"]},{s:"Is there a cat on the sofa? – Yes, there ___.",a:["is"]},{s:"Are there books on the shelf? – No, there ___.",a:["aren't","are not"]}]},
+ {id:"havegot", u:1, t:"have got / has got",
+  r:`<p><b>have got</b> = haben, besitzen.</p><ul><li class="ex">I/you/we/they <b>have got</b> ('ve got)</li><li class="ex">he/she/it <b>has got</b> ('s got)</li></ul><p>Verneinung: <span class="ex">haven't got / hasn't got</span>. Frage: <span class="ex"><b>Have</b> you got a pet? – Yes, I have. <b>Has</b> she got a bike? – No, she hasn't.</span></p>`,
+  x:[{s:"I ___ a little brother.",a:["have got"]},{s:"Lisa ___ a new bike.",a:["has got"]},{s:"We ___ two cats and a dog.",a:["have got"]},{s:"My grandparents ___ (not) a computer.",a:["haven't got","have not got"]},{s:"Tom ___ (not) a mobile phone.",a:["hasn't got","has not got"]},{s:"___ you got a pet?",a:["Have"]},{s:"___ your sister got a bike? – Yes, she has.",a:["Has"]},{s:"Have they got a garden? – No, they ___.",a:["haven't","have not"]}]},
+ {id:"plural", u:1, t:"Plural der Nomen",
+  r:`<p>Meist hängst du <b>-s</b> an: <span class="ex">book → books</span>.</p><ul><li>nach s, sh, ch, x: <b>-es</b> <span class="ex">box → boxes, bus → buses</span></li><li>Konsonant + y → <b>-ies</b> <span class="ex">baby → babies</span>, aber Vokal + y: <span class="ex">boy → boys</span></li><li>f/fe → <b>-ves</b> <span class="ex">knife → knives</span></li><li>unregelmäßig: <span class="ex">man → men, woman → women, child → children, foot → feet, tooth → teeth, mouse → mice</span></li></ul>`,
+  x:[{s:"one box – two ___",a:["boxes"]},{s:"one baby – three ___",a:["babies"]},{s:"one boy – four ___",a:["boys"]},{s:"one child – many ___",a:["children"]},{s:"one knife – two ___",a:["knives"]},{s:"one man – five ___",a:["men"]},{s:"one bus – two ___",a:["buses"]},{s:"one foot – two ___",a:["feet"]}]},
+ {id:"poss", u:2, t:"my, your, his, her …",
+  r:`<p>Possessivbegleiter zeigen, wem etwas gehört:</p><ul><li class="ex">I → <b>my</b> · you → <b>your</b> · he → <b>his</b> · she → <b>her</b> · it → <b>its</b></li><li class="ex">we → <b>our</b> · you → <b>your</b> · they → <b>their</b></li></ul><p>Achtung: <b>his</b> = sein (bei einem Jungen/Mann), <b>her</b> = ihr (bei einem Mädchen/einer Frau), <b>its</b> = bei Dingen und Tieren.</p>`,
+  x:[{s:"I love ___ room. (ich)",a:["my"]},{s:"Ben is in the garden with ___ dog. (Ben)",a:["his"]},{s:"Emma, where is ___ school bag? (du)",a:["your"]},{s:"Mia and ___ mum are at the market. (Mia)",a:["her"]},{s:"We like ___ new teacher. (wir)",a:["our"]},{s:"The twins are in ___ bedroom. (die Zwillinge)",a:["their"]},{s:"The cat is eating ___ food. (die Katze)",a:["its"]},{s:"Tom and I are with ___ grandpa. (Tom und ich)",a:["our"]}]},
+ {id:"can", u:2, t:"can / can't",
+  r:`<p><b>can</b> + Grundform = können, dürfen. Die Form ist für alle Personen gleich – <b>kein -s</b>!</p><ul><li class="ex">She <b>can</b> swim. He <b>can't</b> (cannot) dance.</li><li class="ex"><b>Can</b> you play the guitar? – Yes, I can. / No, I can't.</li></ul>`,
+  x:[{s:"I ___ swim very well. (können)",a:["can"]},{s:"My little brother ___ read yet. (nicht können)",a:["can't","cannot"]},{s:"___ you play the guitar?",a:["Can"]},{s:"She can ___ (dance) really well.",a:["dance"]},{s:"Can your dog catch a ball? – Yes, it ___.",a:["can"]},{s:"Can they come to the party? – No, they ___.",a:["can't","cannot"]},{s:"We ___ go to the cinema today. (dürfen nicht)",a:["can't","cannot"]},{s:"___ I open the window, please?",a:["Can"]}]},
+ {id:"gen", u:2, t:"s-Genitiv: Emma's bike",
+  r:`<p>Bei Personen zeigst du Besitz mit <b>'s</b>:</p><ul><li class="ex"><b>Emma's</b> bike · my <b>sister's</b> phone</li><li>Plural mit -s: nur Apostroph <span class="ex">my <b>parents'</b> room</span></li><li>unregelmäßiger Plural: <span class="ex">the <b>children's</b> toys</span></li></ul>`,
+  x:[{s:"the bike of Emma → ___ bike",a:["Emma's"]},{s:"the room of my parents → my ___ room",a:["parents'"]},{s:"the toys of the children → the ___ toys",a:["children's"]},{s:"the dog of Mr Brown → Mr ___ dog",a:["Brown's"]},{s:"the bags of the girls → the ___ bags",a:["girls'"]},{s:"the mum of Jack → ___ mum",a:["Jack's"]},{s:"the teacher of the twins → the ___ teacher",a:["twins'"]},{s:"the phone of my sister → my ___ phone",a:["sister's"]}]},
+ {id:"sp", u:3, t:"simple present",
+  r:`<p>Das <b>simple present</b> verwendest du für Dinge, die regelmäßig, immer, oft oder nie passieren.</p><p><b>he/she/it – das s muss mit!</b></p><ul><li class="ex">I play → she play<b>s</b> · go → go<b>es</b> · watch → watch<b>es</b></li><li class="ex">Konsonant + y: fly → fl<b>ies</b> (aber play → plays) · have → <b>has</b></li></ul><p>Signalwörter: <span class="ex">always, usually, often, sometimes, never, every day, on Mondays</span>.</p><p>Satzstellung: Häufigkeitswort <b>vor</b> dem Vollverb, aber <b>nach</b> be: <span class="ex">I <b>often</b> play. She is <b>always</b> late.</span></p>`,
+  x:[{s:"Lucy ___ (play) hockey on Fridays.",a:["plays"]},{s:"My dad ___ (go) to work by bus.",a:["goes"]},{s:"We always ___ (have) breakfast at seven.",a:["have"]},{s:"Sam ___ (watch) TV after school.",a:["watches"]},{s:"The bird ___ (fly) over the river.",a:["flies"]},{s:"My friends ___ (like) pizza.",a:["like"]},{s:"She ___ (have) lunch at school.",a:["has"]},{s:"Grandma ___ (tidy) the kitchen every evening.",a:["tidies"]}]},
+ {id:"do", u:4, t:"do / does: Verneinung und Fragen",
+  r:`<p>Verneinung: <b>don't / doesn't</b> + Grundform.</p><ul><li class="ex">I <b>don't</b> like fish. She <b>doesn't</b> play (kein s mehr!).</li></ul><p>Frage: <b>Do / Does</b> + Person + Grundform.</p><ul><li class="ex"><b>Do</b> you like dogs? – Yes, I do. / No, I don't.</li><li class="ex"><b>Does</b> he live here? – Yes, he does. / No, he doesn't.</li><li class="ex">Where <b>do</b> you live? What <b>does</b> she like?</li></ul>`,
+  x:[{s:"I ___ (not like) spinach.",a:["don't like","do not like"]},{s:"Max ___ (not play) football.",a:["doesn't play","does not play"]},{s:"___ you get up early on Sundays?",a:["Do"]},{s:"___ your sister walk to school?",a:["Does"]},{s:"Does he like music? – Yes, he ___.",a:["does"]},{s:"Do they live in Greenwich? – No, they ___.",a:["don't","do not"]},{s:"Where ___ your grandparents live?",a:["do"]},{s:"What time ___ the film start?",a:["does"]}]},
+ {id:"obj", u:4, t:"me, him, her, us, them",
+  r:`<p>Nach dem Verb oder nach einer Präposition brauchst du die Objektform:</p><ul><li class="ex">I → <b>me</b> · you → <b>you</b> · he → <b>him</b> · she → <b>her</b> · it → <b>it</b></li><li class="ex">we → <b>us</b> · you → <b>you</b> · they → <b>them</b></li><li class="ex">Can you help <b>me</b>? Look at <b>them</b>!</li></ul>`,
+  x:[{s:"I like Tom. I often play with ___.",a:["him"]},{s:"Where is Anna? I can't see ___.",a:["her"]},{s:"This is my new bike. Do you like ___?",a:["it"]},{s:"My cousins are nice. I visit ___ every summer.",a:["them"]},{s:"Can you help ___, please? (mir)",a:["me"]},{s:"Our teacher gives ___ a lot of homework. (uns)",a:["us"]},{s:"Look at ___! (die Hunde)",a:["them"]},{s:"I've got a present for ___, Lisa. (dich)",a:["you"]}]},
+ {id:"qw", u:4, t:"Fragewörter",
+  r:`<ul><li class="ex"><b>What</b> – was · <b>Where</b> – wo, wohin · <b>When</b> – wann · <b>Who</b> – wer</li><li class="ex"><b>Why</b> – warum · <b>How</b> – wie · <b>How old</b> – wie alt · <b>How many</b> – wie viele</li><li class="ex"><b>What time</b> – um wie viel Uhr · <b>Which</b> – welche(r/s) · <b>Whose</b> – wessen</li></ul>`,
+  x:[{s:"___ do you live? – In Greenwich.",a:["Where"]},{s:"___ is your birthday? – In May.",a:["When"]},{s:"___ is your best friend? – Jack.",a:["Who"]},{s:"___ old are you? – I'm eleven.",a:["How"]},{s:"___ are you sad? – Because my cat is ill.",a:["Why"]},{s:"___ is your favourite colour? – Green.",a:["What"]},{s:"___ many brothers have you got? – Two.",a:["How"]},{s:"___ time is it? – It's half past four.",a:["What"]}]},
+ {id:"pp", u:5, t:"present progressive",
+  r:`<p>Für Dinge, die <b>gerade jetzt</b> passieren: <b>am / is / are + -ing</b>.</p><ul><li class="ex">I <b>am reading</b>. She <b>is playing</b>. They <b>are swimming</b>.</li></ul><p>Rechtschreibung: <span class="ex">write → writ<b>ing</b></span> (stummes e fällt weg), <span class="ex">swim → swim<b>ming</b>, sit → sit<b>ting</b></span> (Konsonant verdoppelt).</p><p>Signalwörter: <span class="ex">now, at the moment, Look!, Listen!</span></p><p>Verneinung: <span class="ex">She isn't playing.</span> Frage: <span class="ex">Is she playing? – Yes, she is.</span></p>`,
+  x:[{s:"Look! The baby ___ (sleep).",a:["is sleeping"]},{s:"I ___ (read) a comic at the moment.",a:["am reading"]},{s:"Listen! Tom ___ (sing) in the shower.",a:["is singing"]},{s:"We ___ (have) lunch now.",a:["are having"]},{s:"The children ___ (swim) in the lake.",a:["are swimming"]},{s:"Dad ___ (write) an email right now.",a:["is writing"]},{s:"Mia ___ (not watch) TV at the moment.",a:["isn't watching","is not watching"]},{s:"___ they playing football? – Yes, they are.",a:["Are"]}]},
+ {id:"spvspp", u:5, t:"simple present oder progressive?",
+  r:`<ul><li><b>simple present</b>: immer, regelmäßig, oft, nie – <span class="ex">He usually <b>walks</b> to school.</span></li><li><b>present progressive</b>: jetzt gerade – <span class="ex">Today he <b>is taking</b> the bus.</span></li></ul><p>Achte auf die Signalwörter: <span class="ex">every day, usually, never</span> ↔ <span class="ex">now, at the moment, Look!</span></p>`,
+  x:[{s:"Ben usually ___ (walk) to school.",a:["walks"]},{s:"Today he ___ (take) the bus because it's raining.",a:["is taking"]},{s:"Look! The dog ___ (run) after the cat.",a:["is running"]},{s:"My mum ___ (work) in a hospital.",a:["works"]},{s:"I never ___ (drink) coffee.",a:["drink"]},{s:"Be quiet! I ___ (do) my homework.",a:["am doing"]},{s:"We ___ (go) to the cinema every Saturday.",a:["go"]},{s:"Lisa can't come to the phone. She ___ (have) a shower.",a:["is having"]}]},
+ {id:"some", u:5, t:"some / any",
+  r:`<ul><li><b>some</b> in bejahten Sätzen und bei Angeboten/Bitten: <span class="ex">There are <b>some</b> apples. Would you like <b>some</b> cake?</span></li><li><b>any</b> in verneinten Sätzen und Fragen: <span class="ex">We haven't got <b>any</b> milk. Have you got <b>any</b> pets?</span></li><li>Genauso: <span class="ex">something / anything, somebody / anybody, somewhere / anywhere</span></li></ul>`,
+  x:[{s:"There are ___ apples on the table.",o:["some","any"],a:["some"]},{s:"Have you got ___ brothers or sisters?",o:["some","any"],a:["any"]},{s:"We haven't got ___ milk.",o:["some","any"],a:["any"]},{s:"Would you like ___ cake?",o:["some","any"],a:["some"]},{s:"I can't see ___ on the shelf.",o:["something","anything"],a:["anything"]},{s:"Is there ___ at home?",o:["somebody","anybody"],a:["anybody"]},{s:"I've got ___ for you!",o:["something","anything"],a:["something"]},{s:"There aren't ___ chairs in the room.",o:["some","any"],a:["any"]}]},
+ {id:"much", u:5, t:"much, many, a lot of",
+  r:`<ul><li><b>many</b> + zählbare Nomen: <span class="ex">many apples, How <b>many</b> …?</span></li><li><b>much</b> + nicht zählbare Nomen: <span class="ex">much milk, much time, How <b>much</b> is it?</span></li><li><b>a lot of</b> für beides, vor allem in bejahten Sätzen: <span class="ex">a lot of friends</span></li><li><b>a few</b> (ein paar) + zählbar · <b>a little</b> (ein bisschen) + nicht zählbar</li></ul>`,
+  x:[{s:"How ___ apples do you want?",o:["much","many"],a:["many"]},{s:"How ___ is the T-shirt?",o:["much","many"],a:["much"]},{s:"There isn't ___ juice in the fridge.",o:["much","many"],a:["much"]},{s:"There aren't ___ people in the shop.",o:["much","many"],a:["many"]},{s:"I've got ___ friends at my new school.",o:["a lot of","much"],a:["a lot of"]},{s:"We haven't got ___ time.",o:["much","many"],a:["much"]},{s:"Can I have ___ sugar, please? (ein bisschen)",o:["a little","a few"],a:["a little"]},{s:"I've only got ___ sweets left. (ein paar)",o:["a little","a few"],a:["a few"]}]},
+ {id:"was", u:6, t:"was / were",
+  r:`<p>Die Vergangenheit von <b>to be</b>:</p><ul><li class="ex">I/he/she/it <b>was</b> · you/we/they <b>were</b></li><li class="ex">Verneinung: <b>wasn't / weren't</b> · Frage: <b>Was</b> he …? <b>Were</b> you …?</li></ul><p>Signalwörter: <span class="ex">yesterday, last week, two days ago, in 2020</span></p>`,
+  x:[{s:"I ___ at home yesterday.",a:["was"]},{s:"The party ___ great!",a:["was"]},{s:"We ___ in London last summer.",a:["were"]},{s:"My friends ___ (not) at school on Monday.",a:["weren't","were not"]},{s:"The film ___ (not) very good.",a:["wasn't","was not"]},{s:"___ you at the match last Saturday?",a:["Were"]},{s:"___ it cold in Scotland?",a:["Was"]},{s:"Were they happy? – Yes, they ___.",a:["were"]}]},
+ {id:"past", u:6, t:"simple past: Aussagesätze",
+  r:`<p>Regelmäßige Verben: <b>-ed</b> anhängen.</p><ul><li class="ex">play → play<b>ed</b> · like → like<b>d</b> · stop → stop<b>ped</b> · carry → carr<b>ied</b></li></ul><p>Unregelmäßige Verben musst du lernen, zum Beispiel:</p><ul><li class="ex">go → <b>went</b> · have → <b>had</b> · see → <b>saw</b> · come → <b>came</b> · buy → <b>bought</b> · get → <b>got</b> · make → <b>made</b> · eat → <b>ate</b> · give → <b>gave</b> · find → <b>found</b> · say → <b>said</b> · do → <b>did</b></li></ul>`,
+  x:[{s:"Yesterday we ___ (play) football in the park.",a:["played"]},{s:"Last week I ___ (go) to the zoo.",a:["went"]},{s:"Mia ___ (buy) a present for her mum.",a:["bought"]},{s:"The bus ___ (stop) in front of the school.",a:["stopped"]},{s:"We ___ (have) pizza for dinner.",a:["had"]},{s:"Tom ___ (see) a fox in the garden.",a:["saw"]},{s:"Grandpa ___ (carry) the boxes upstairs.",a:["carried"]},{s:"Two days ago they ___ (come) back from holiday.",a:["came"]}]},
+ {id:"pastq", u:6, t:"simple past: Verneinung und Fragen",
+  r:`<p>Verneinung: <b>didn't</b> + Grundform – für alle Personen gleich.</p><ul><li class="ex">She <b>didn't go</b> to school. (nicht: didn't went!)</li></ul><p>Frage: <b>Did</b> + Person + Grundform.</p><ul><li class="ex"><b>Did</b> you see the film? – Yes, I did. / No, I didn't.</li><li class="ex">Where <b>did</b> you go?</li></ul>`,
+  x:[{s:"I ___ (not go) to school yesterday.",a:["didn't go","did not go"]},{s:"She ___ (not like) the film.",a:["didn't like","did not like"]},{s:"___ you see the match on Saturday?",a:["Did"]},{s:"Did Ben win the race? – No, he ___.",a:["didn't","did not"]},{s:"Did they enjoy the party? – Yes, they ___.",a:["did"]},{s:"Where ___ you go last summer?",a:["did"]},{s:"We ___ (not have) time for breakfast.",a:["didn't have","did not have"]},{s:"What did you ___ (buy) at the market?",a:["buy"]}]}
+];
+const gById = id => G.find(g => g.id === id);
+
+/* ---------- built-in listening + reading (written for this app) ---------- */
+const LISTEN_BUILTIN = [
+ {id:"lb1", u:1, title:"Mia's new house", speakers:[{name:"Leo",gender:"m"},{name:"Mia",gender:"f"}], lines:[
+  {who:"Leo",text:"Hi Mia! Is this your new house?"},{who:"Mia",text:"Yes, it is. Come in! We've got a big kitchen downstairs."},{who:"Leo",text:"Wow, it's really nice. Where is your room?"},{who:"Mia",text:"It's upstairs, next to the bathroom."},{who:"Leo",text:"Have you got a desk in your room?"},{who:"Mia",text:"Yes, I have. And there's a big window behind my bed."},{who:"Leo",text:"Is there a garden too?"},{who:"Mia",text:"Yes, there is. My dad has got lots of flowers in it. And there are two old trees."},{who:"Leo",text:"Cool! Can we play football there?"},{who:"Mia",text:"Sure. But not near the flowers!"}],
+  questions:[{q:"Where is the kitchen?",options:["upstairs","downstairs","in the garden"],answer:1},{q:"Mia's room is next to the …",options:["kitchen","bathroom","living room"],answer:1},{q:"True or false: There is a window behind Mia's bed.",options:["true","false"],answer:0},{q:"Who has got lots of flowers?",options:["Mia","Mia's mum","Mia's dad"],answer:2},{q:"How many trees are there in the garden?",options:["one","two","three"],answer:1}],
+  words:[{en:"downstairs",de:"unten"},{en:"upstairs",de:"oben"},{en:"behind",de:"hinter"}]},
+ {id:"lb2", u:3, title:"A busy Saturday", speakers:[{name:"Grandma",gender:"f"},{name:"Jack",gender:"m"}], lines:[
+  {who:"Grandma",text:"Hello Jack! What do you do on Saturdays?"},{who:"Jack",text:"Oh, I'm always busy, Grandma. I get up at half past seven."},{who:"Grandma",text:"On a Saturday? That's early!"},{who:"Jack",text:"Yes, because I've got swimming at nine o'clock."},{who:"Grandma",text:"And after swimming?"},{who:"Jack",text:"I usually have lunch with Dad. Then I meet my friend Sam in the park."},{who:"Grandma",text:"Does Sam play football too?"},{who:"Jack",text:"No, he doesn't. He plays basketball. We often go skateboarding."},{who:"Grandma",text:"And in the evening?"},{who:"Jack",text:"We sometimes watch a film. But I never go to bed late. I'm always tired!"}],
+  questions:[{q:"When does Jack get up on Saturdays?",options:["at seven o'clock","at half past seven","at nine o'clock"],answer:1},{q:"What has Jack got at nine o'clock?",options:["football","swimming","music"],answer:1},{q:"Who does Jack usually have lunch with?",options:["his dad","his grandma","Sam"],answer:0},{q:"True or false: Sam plays football.",options:["true","false"],answer:1},{q:"What do Jack and Sam often do?",options:["go skateboarding","go swimming","watch TV"],answer:0}],
+  words:[{en:"busy",de:"beschäftigt"},{en:"half past seven",de:"halb acht"},{en:"tired",de:"müde"}]},
+ {id:"lb4", u:2, title:"The new girl", speakers:[{name:"Tom",gender:"m"},{name:"Aisha",gender:"f"}], lines:[
+  {who:"Tom",text:"Hi! Are you new here?"},{who:"Aisha",text:"Yes, I am. I'm Aisha. I'm from Manchester."},{who:"Tom",text:"Nice to meet you, Aisha. I'm Tom. What's your first lesson?"},{who:"Aisha",text:"Let me look at my timetable. It's Science with Mr Green."},{who:"Tom",text:"Oh, me too! Mr Green is my favourite teacher. He can do great experiments."},{who:"Aisha",text:"Cool! Where is the Science room?"},{who:"Tom",text:"It's on the second floor, next to the library. Come with me."},{who:"Aisha",text:"Thanks! Oh no, I haven't got my pencil case!"},{who:"Tom",text:"No problem. You can have my blue pen and a ruler."},{who:"Aisha",text:"You're really nice, Tom. Thank you!"}],
+  questions:[{q:"Where is Aisha from?",options:["London","Manchester","Liverpool"],answer:1},{q:"What is Aisha's first lesson?",options:["Maths","Science","English"],answer:1},{q:"True or false: Mr Green is Tom's favourite teacher.",options:["true","false"],answer:0},{q:"Where is the Science room?",options:["next to the library","next to the canteen","on the first floor"],answer:0},{q:"What can Aisha have from Tom?",options:["a pencil case","a blue pen and a ruler","a book"],answer:1}],
+  words:[{en:"timetable",de:"Stundenplan"},{en:"experiment",de:"Experiment, Versuch"},{en:"second floor",de:"zweiter Stock"}]},
+ {id:"lb5", u:4, title:"The old ship", speakers:[{name:"Lily",gender:"f"},{name:"Dad",gender:"m"}], lines:[
+  {who:"Lily",text:"Dad, what do we do today?"},{who:"Dad",text:"Let's visit the old ship by the river. Do you want to come?"},{who:"Lily",text:"Hmm, I don't know. Is it boring?"},{who:"Dad",text:"No, it isn't! You can go on the ship and see where the sailors sleep."},{who:"Lily",text:"Do they have beds?"},{who:"Dad",text:"No, they don't. They sleep in hammocks."},{who:"Lily",text:"That's funny! Are the tickets expensive?"},{who:"Dad",text:"Tickets for children are eight pounds. But Grandpa has got a free ticket for you."},{who:"Lily",text:"Great! When do we go?"},{who:"Dad",text:"After lunch, at two o'clock. We go by bus."}],
+  questions:[{q:"Where is the old ship?",options:["by the river","in the park","at the station"],answer:0},{q:"True or false: At first Lily thinks the trip is exciting.",options:["true","false"],answer:1},{q:"Where do the sailors sleep?",options:["in beds","in hammocks","on the floor"],answer:1},{q:"Who has got a free ticket for Lily?",options:["Dad","Mum","Grandpa"],answer:2},{q:"How do they go to the ship?",options:["by car","by bus","on foot"],answer:1}],
+  words:[{en:"ship",de:"Schiff"},{en:"sailor",de:"Seemann, Matrose"},{en:"hammock",de:"Hängematte"},{en:"free",de:"kostenlos"}]},
+ {id:"lb3", u:5, title:"At the market", speakers:[{name:"Seller",gender:"m"},{name:"Emma",gender:"f"}], lines:[
+  {who:"Seller",text:"Good morning! Can I help you?"},{who:"Emma",text:"Yes, please. I'm looking for a present for my brother."},{who:"Seller",text:"How old is he?"},{who:"Emma",text:"He's eight. He likes animals and football."},{who:"Seller",text:"What about this T-shirt? It's got a tiger on it."},{who:"Emma",text:"Oh, that's nice! How much is it?"},{who:"Seller",text:"It's twelve pounds."},{who:"Emma",text:"Hmm, that's a bit expensive. I've only got ten pounds."},{who:"Seller",text:"Then look at these caps. They're seven pounds."},{who:"Emma",text:"Great, I'll take the green one, please."}],
+  questions:[{q:"Who is the present for?",options:["Emma's sister","Emma's brother","Emma's dad"],answer:1},{q:"How old is he?",options:["eight","ten","twelve"],answer:0},{q:"True or false: The T-shirt has got a dog on it.",options:["true","false"],answer:1},{q:"How much is the T-shirt?",options:["£7","£10","£12"],answer:2}, {q:"What does Emma buy?",options:["a T-shirt","a green cap","a football"],answer:1}],
+  words:[{en:"seller",de:"Verkäufer"},{en:"expensive",de:"teuer"},{en:"cap",de:"Mütze, Kappe"}]},
+ {id:"lb6", u:6, title:"Back from the weekend", speakers:[{name:"Sophie",gender:"f"},{name:"Ben",gender:"m"}], lines:[
+  {who:"Sophie",text:"Hi Ben! How was your weekend?"},{who:"Ben",text:"It was great! On Saturday I went to my cousin's birthday party."},{who:"Sophie",text:"Cool! Was it a big party?"},{who:"Ben",text:"Yes, there were about twenty children. We played games in the garden and ate burgers."},{who:"Sophie",text:"Did you bring a present?"},{who:"Ben",text:"Yes, I did. I bought a football for him. He loved it!"},{who:"Sophie",text:"And what did you do on Sunday?"},{who:"Ben",text:"I didn't do much. I was tired, so I watched films. What about you?"},{who:"Sophie",text:"I visited my grandma. We made a chocolate cake together."},{who:"Ben",text:"Mmm! Did you bring me a piece?"},{who:"Sophie",text:"Sorry, no. We ate it all!"}],
+  questions:[{q:"Whose birthday party was it?",options:["Ben's brother's","Ben's cousin's","Sophie's"],answer:1},{q:"How many children were at the party?",options:["about ten","about twenty","about thirty"],answer:1},{q:"What did Ben buy?",options:["a football","a game","a book"],answer:0},{q:"True or false: Ben was very busy on Sunday.",options:["true","false"],answer:1},{q:"What did Sophie and her grandma make?",options:["pizza","biscuits","a chocolate cake"],answer:2}],
+  words:[{en:"cousin",de:"Cousin, Cousine"},{en:"piece",de:"Stück"},{en:"to eat (ate)",de:"essen"}]}
+];
+const READ_BUILTIN_RAW = [
+ {id:"rb3", u:1, title:"Our new flat", text:"Hi Lena,\nThanks for your email! Now I can tell you about our new flat in London. It's on the third floor of a big, old building. There's a lift, but it's often broken, so we usually take the stairs.\nOur flat has got five rooms: a kitchen, a living room, a bathroom and two bedrooms. I share my bedroom with my sister Grace. There are two beds, a big desk and a lot of posters on the walls. Grace has got a hamster. Its name is Biscuit and its cage is under the window.\nThe best thing is the balcony. There's a great view of the river and the boats. Have you got a balcony too? Write soon!\nLove, Holly",
+  questions:[{q:"True or false: Holly's flat is on the first floor.",options:["true","false"],answer:1},{q:"Why do they usually take the stairs?",options:["The lift is often broken.","They like stairs.","There isn't a lift."],answer:0},{q:"Who is Grace?",options:["Holly's friend","Holly's sister","Holly's mum"],answer:1},{q:"True or false: Biscuit is a hamster.",options:["true","false"],answer:0},{q:"What is the best thing about the flat?",options:["the kitchen","the bedroom","the balcony"],answer:2}],
+  open:[{q:"How many rooms has the flat got?",model:"It has got five rooms."},{q:"What is in Holly's bedroom?",model:"There are two beds, a big desk and a lot of posters."}],
+  words:[{en:"lift",de:"Aufzug"},{en:"broken",de:"kaputt"},{en:"to share",de:"teilen"},{en:"cage",de:"Käfig"},{en:"view",de:"Aussicht"}]},
+ {id:"rb4", u:2, title:"New at Hillside School", text:"Hello! My name is Noah. I'm eleven and I'm new at Hillside School in Greenwich. My form teacher is Mrs Lee. She's very friendly and she can speak three languages!\nAt my new school we have got a uniform: a blue jumper, a white shirt and black trousers. And a tie! The tie is not my favourite thing.\nMy favourite subjects are PE and Music. I can play the drums, so I'm in the school band. My new friend is Kemal. His desk is next to my desk. Kemal's mum has got a café next to the school. It's our favourite place!",
+  questions:[{q:"True or false: Noah is twelve.",options:["true","false"],answer:1},{q:"Who is Mrs Lee?",options:["Noah's mum","Noah's form teacher","Kemal's mum"],answer:1},{q:"What colour is the jumper?",options:["blue","black","white"],answer:0},{q:"True or false: Noah can play the drums.",options:["true","false"],answer:0},{q:"Where is the café?",options:["next to Noah's house","next to the school","in the park"],answer:1}],
+  open:[{q:"What are Noah's favourite subjects?",model:"His favourite subjects are PE and Music."},{q:"Why is Noah in the school band?",model:"Because he can play the drums."}],
+  words:[{en:"form teacher",de:"Klassenlehrer(in)"},{en:"jumper",de:"Pullover"},{en:"trousers",de:"Hose"},{en:"tie",de:"Krawatte"},{en:"drums",de:"Schlagzeug"}]},
+ {id:"rb5", u:4, title:"Saturdays at the market", text:"Every Saturday Zara and her brother Sam go to Greenwich Market with their aunt. Aunt Jo sells home-made soap there. Zara helps at the stall, but Sam doesn't. He doesn't like soap – he likes food!\nAt eleven o'clock Aunt Jo gives them five pounds. Sam always buys a big hot dog. Zara doesn't buy food. She usually looks at the old books and comics.\nIn the afternoon they walk to the park. From the hill they look at London. \"Do you see our school?\" Sam asks. \"No, I don't,\" Zara laughs. \"But I see the river and all the boats.\"",
+  questions:[{q:"What does Aunt Jo sell?",options:["books","soap","hot dogs"],answer:1},{q:"True or false: Sam helps at the stall.",options:["true","false"],answer:1},{q:"How much money does Aunt Jo give them?",options:["£5","£10","£11"],answer:0},{q:"What does Zara usually look at?",options:["old books and comics","clothes","toys"],answer:0},{q:"True or false: They walk to the park in the morning.",options:["true","false"],answer:1}],
+  open:[{q:"What does Sam always buy?",model:"He always buys a big hot dog."},{q:"What does Zara see from the hill?",model:"She sees the river and all the boats."}],
+  words:[{en:"aunt",de:"Tante"},{en:"home-made",de:"selbst gemacht"},{en:"soap",de:"Seife"},{en:"stall",de:"(Markt-)Stand"},{en:"hill",de:"Hügel"}]},
+ {id:"rb6", u:5, title:"A present for Mum", text:"It's Saturday and Max and his dad are in town. They are looking for a birthday present for Mum. \"What about a scarf?\" Dad asks. Max is shaking his head. \"Mum has got a lot of scarves.\"\nNow they are standing in a little shop with plants. Max is looking at a small green plant in a blue pot. \"Mum loves plants,\" he says. \"How much is it?\" The shop assistant is smiling. \"It's fifteen pounds.\" Dad hasn't got much money with him, and Max has only got a few pounds. But together they have got exactly fifteen pounds!\nThey are walking home now. Max is carrying the plant very carefully. It's raining, but they are happy.",
+  questions:[{q:"True or false: Max and his mum are in town.",options:["true","false"],answer:1},{q:"Why don't they buy a scarf?",options:["Mum has got a lot of scarves.","Scarves are expensive.","The shop is closed."],answer:0},{q:"What colour is the pot?",options:["green","blue","red"],answer:1},{q:"How much is the plant?",options:["£5","£15","£50"],answer:1},{q:"True or false: It's raining on the way home.",options:["true","false"],answer:0}],
+  open:[{q:"What present do they buy?",model:"They buy a small green plant in a blue pot."},{q:"What is Max doing on the way home?",model:"He is carrying the plant very carefully."}],
+  words:[{en:"scarf (scarves)",de:"Schal"},{en:"to shake your head",de:"den Kopf schütteln"},{en:"pot",de:"Topf"},{en:"shop assistant",de:"Verkäufer(in)"},{en:"carefully",de:"vorsichtig"}]},
+ {id:"rb1", u:3, title:"Ruby's Monday", text:"Ruby lives in Greenwich with her mum, her dad and her little brother Alfie. On Mondays she always gets up at seven o'clock. She has breakfast with Alfie in the kitchen – usually toast and orange juice. At quarter to eight she walks to school with her friend Nina.\nSchool starts at half past eight. Ruby's first lesson is Maths. She doesn't like Maths very much, but she loves English and Art. At lunch break she often plays table tennis with Nina.\nAfter school Ruby has got dance club. She gets home at five o'clock. Then she does her homework and helps her dad in the kitchen. In the evening the family sometimes plays a board game. Ruby goes to bed at nine. Alfie goes to bed at half past seven – and he hates it!",
+  questions:[{q:"True or false: Ruby has got a little sister.",options:["true","false"],answer:1},{q:"True or false: Ruby walks to school with Nina.",options:["true","false"],answer:0},{q:"What is Ruby's first lesson on Monday?",options:["Maths","English","Art"],answer:0},{q:"What does Ruby often do at lunch break?",options:["She plays football.","She plays table tennis.","She reads."],answer:1},{q:"True or false: Alfie goes to bed later than Ruby.",options:["true","false"],answer:1}],
+  open:[{q:"What does Ruby have for breakfast?",model:"She usually has toast and orange juice."},{q:"What does Ruby do when she gets home?",model:"She does her homework and helps her dad in the kitchen."}],
+  words:[{en:"board game",de:"Brettspiel"},{en:"to hate",de:"hassen"}]},
+ {id:"rb2", u:6, title:"The best party ever", text:"Last Saturday was Leo's eleventh birthday. He invited eight friends to his party. They met at the park at two o'clock. First they played a treasure hunt game. Leo's dad hid small presents under trees and behind benches. Maya found the most presents and won a prize.\nAt four o'clock it started to rain, so they ran back to Leo's house. His mum made pizza and there was a big chocolate cake with eleven candles. Leo blew out all the candles at once. Then the friends danced and sang karaoke.\nThe guests went home at seven. Leo was tired but very happy. \"That was the best party ever,\" he said to his parents.",
+  questions:[{q:"True or false: Leo invited ten friends.",options:["true","false"],answer:1},{q:"Where did they meet?",options:["at Leo's house","at the park","at school"],answer:1},{q:"Who won the treasure hunt?",options:["Leo","Maya","Leo's dad"],answer:1},{q:"True or false: It rained in the afternoon.",options:["true","false"],answer:0},{q:"When did the guests go home?",options:["at four o'clock","at five o'clock","at seven o'clock"],answer:2}],
+  open:[{q:"Why did they go back to Leo's house?",model:"Because it started to rain."},{q:"What was on the birthday cake?",model:"There were eleven candles on the cake."}],
+  words:[{en:"treasure hunt",de:"Schatzsuche"},{en:"to hide (hid)",de:"verstecken"},{en:"bench",de:"Bank (zum Sitzen)"},{en:"to blow out (blew out)",de:"ausblasen"}]}
+];
+
+const byUnit = (a, b) => a.u - b.u;
+LISTEN_BUILTIN.sort(byUnit);
+const READ_BUILTIN = READ_BUILTIN_RAW.slice().sort(byUnit);
+
+/* ---------- state + storage ---------- */
+const state = {
+  lists: [], settings: { grades: {1:0,2:1,3:3,4:5,5:7}, unit: 1 }, results: [], done: {},
+  tab: "vocab", vsub: "quiz", quiz: null, quizSetup: { sel: null, dir: "en", count: "20" }, draft: null, confirmDel: null,
+  listen: null, listenSetup: { unit: null, len: "mittel", sel: [] },
+  read: null, readSetup: { unit: null, len: "mittel", sel: [] },
+  gram: null, gramUnit: null
+};
+let db = null, sample = null, sampleCaps = null;
+const LS = "englishtrainer.offline.v1";
+function lsLoad(){ try { const j = JSON.parse(localStorage.getItem(LS) || "null"); if (j) { state.lists = j.lists || []; Object.assign(state.settings, j.settings || {}); state.results = j.results || []; state.done = j.done || {}; } } catch(e){} }
+function lsSave(){ try { localStorage.setItem(LS, JSON.stringify({lists: state.lists, settings: state.settings, results: state.results.slice(0,50), done: state.done})); } catch(e){} }
+async function dbTry(fn){ if (!db) return; try { await fn(); } catch(e){ if (e && e.code === "unavailable") { await new Promise(r=>setTimeout(r,600+Math.random()*600)); try { await fn(); } catch(e2){ toast("Speichern hat nicht geklappt. Bitte später nochmal."); } } else if (e && (e.code === "invalid_argument" || e.code === "permission_denied")) { toast("Keine Schreibrechte – nur lokal gespeichert."); } else { toast("Speichern hat nicht geklappt."); } } }
+async function saveList(list){ lsSave(); await dbTry(() => db.doc("lists/" + list.id).set({name:list.name, words:list.words, created:list.created})); }
+async function removeList(id){ lsSave(); await dbTry(() => db.doc("lists/" + id).delete()); }
+async function saveSettings(){ lsSave(); await dbTry(() => db.doc("settings/app").set({...state.settings, done: state.done})); }
+async function addResult(r){ state.results.unshift(r); lsSave(); await dbTry(() => db.doc("results/" + r.id).set(r)); }
+
+function allLists(){ return state.lists.length ? state.lists : EXAMPLES; }
+function listById(id){ return allLists().find(l => l.id === id); }
+function selectedWords(sel){ const out = []; for (const id of sel) { const l = listById(id); if (l) out.push(...l.words); } return out; }
+function defaultSel(){ const l = allLists(); return l.length ? [l[state.lists.length ? l.length-1 : 0].id] : []; }
+function gradeFor(errors){ const g = state.settings.grades; for (let n = 1; n <= 5; n++) { const v = Number(g[n]); if (Number.isFinite(v) && errors <= v) return n; } return 6; }
+function curUnit(){ return Math.min(6, Math.max(1, +state.settings.unit || 1)); }
+
+/* ---------- answer checking ---------- */
+function canon(s){
+  s = String(s ?? "").toLowerCase().replace(/[’‘`´]/g, "'").replace(/\s+/g, " ").trim().replace(/[.!?,;:]+$/, "").trim();
+  const R = [
+    [/\b(he|she|it|there|that|what|who|where)'s got\b/g, "$1 has got"], [/(^|\s)'s got\b/g, "$1has got"],
+    [/\b(he|she|it|there|that|what|who|where|how)'s\b/g, "$1 is"], [/(^|\s)'s\b/g, "$1is"],
+    [/\bcan't\b/g, "cannot"], [/\bcan not\b/g, "cannot"], [/\bwon't\b/g, "will not"], [/n't\b/g, " not"],
+    [/'m\b/g, " am"], [/'re\b/g, " are"], [/'ve\b/g, " have"], [/'ll\b/g, " will"]
+  ];
+  for (const [re, to] of R) s = s.replace(re, to);
+  return s.replace(/\s+/g, " ").trim();
+}
+const isRight = (typed, answers) => { const c = canon(typed); return !!c && answers.some(a => canon(a) === c); };
+function wordForms(en){ return String(en).split(/[,;/]/).map(x => x.replace(/\(.*?\)/g, "").replace(/^\s*to\s+/i, "").replace(/[.!?]/g, "").trim().toLowerCase()).filter(Boolean); }
+function vocabMatch(typed, en){ const t = String(typed).toLowerCase().replace(/^\s*to\s+/, "").replace(/[.!?]/g, "").trim(); return !!t && wordForms(en).includes(t); }
+
+/* ---------- speech (English voices of the device) ---------- */
+const TTS = { ok: typeof window.speechSynthesis !== "undefined" && typeof window.SpeechSynthesisUtterance !== "undefined", voices: [] };
+function loadVoices(){ try { TTS.voices = speechSynthesis.getVoices().filter(v => /^en([-_]|$)/i.test(v.lang)); } catch(e){ TTS.voices = []; } }
+if (TTS.ok) { loadVoices(); try { speechSynthesis.addEventListener("voiceschanged", loadVoices); } catch(e){ speechSynthesis.onvoiceschanged = loadVoices; } }
+const FEMALE = /female|woman|samantha|serena|kate|stephanie|martha|fiona|moira|karen|tessa|victoria|zira|susan|hazel|libby|sonia|emma|amy|olivia|maisie|catherine/i;
+const MALE = /\bmale\b|daniel|arthur|oliver|george|ryan|thomas|alex|fred|david|mark|james|rishi|guy|brian|aaron|gordon/i;
+function orderedVoices(){ const gb = TTS.voices.filter(v => /GB/i.test(v.lang)); return [...gb, ...TTS.voices.filter(v => !/GB/i.test(v.lang))]; }
+function voiceFor(gender, idx){
+  const all = orderedVoices(); if (!all.length) return null;
+  let pool = all.filter(v => gender === "f" ? FEMALE.test(v.name) : gender === "m" ? (MALE.test(v.name) && !FEMALE.test(v.name)) : true);
+  if (!pool.length) pool = all; return pool[idx % pool.length];
+}
+let speakToken = 0;
+function stopSpeak(){ speakToken++; if (TTS.ok) try { speechSynthesis.cancel(); } catch(e){} }
+function splitSentences(t){ return (String(t).match(/[^.!?\n]+[.!?]+["')”]*|[^.!?\n]+$/gm) || [t]).map(s => s.trim()).filter(Boolean); }
+/* parts: [{text, gender, spk}]; returns false if speech is unavailable */
+function speakParts(parts, {rate = 0.95, onPart, onEnd} = {}){
+  if (!TTS.ok) { toast("Vorlesen geht auf diesem Gerät nicht."); return false; }
+  stopSpeak(); const token = speakToken;
+  const pitches = [1, 1.18, 0.88, 1.08];
+  const voiceBySpk = {}; const used = {};
+  parts.forEach((p, i) => {
+    const key = p.spk ?? "_";
+    if (!(key in voiceBySpk)) { const g = p.gender || ""; used[g] = (used[g] || 0); voiceBySpk[key] = { v: voiceFor(g, used[g]), pitch: pitches[Object.keys(voiceBySpk).length % pitches.length] }; used[g]++; }
+    const vv = voiceBySpk[key];
+    const u = new SpeechSynthesisUtterance(p.text);
+    if (vv.v) { u.voice = vv.v; u.lang = vv.v.lang; } else u.lang = "en-GB";
+    u.rate = rate; u.pitch = vv.pitch;
+    u.onstart = () => { if (token === speakToken && onPart) onPart(p.idx ?? i); };
+    if (i === parts.length - 1) u.onend = () => { if (token === speakToken && onEnd) onEnd(); };
+    u.onerror = e => { if (token === speakToken && e && e.error !== "interrupted" && e.error !== "canceled" && onEnd) onEnd(); };
+    speechSynthesis.speak(u);
+  });
+  return true;
+}
+function sayWord(text){ speakParts([{text: String(text).replace(/\(.*?\)/g, "")}], {rate: 0.85}); }
+
+/* ---------- toast ---------- */
+let tt; function toast(msg){ let t = $(".toast"); if (!t) { t = document.createElement("div"); t.className = "toast"; t.setAttribute("role","status"); document.body.appendChild(t); } t.textContent = msg; t.hidden = false; clearTimeout(tt); tt = setTimeout(() => t.hidden = true, 2800); }
+function errText(e){
+  const c = e && e.code;
+  if (c === "not_granted") return "Claude-Zugriff wurde nicht erlaubt.";
+  if (c === "rate_limited") return "Gerade zu viele Anfragen – bitte kurz warten.";
+  if (c === "cancelled") return "Abgebrochen.";
+  if (c === "images_unavailable") return "Fotos können in dieser Ansicht nicht gesendet werden.";
+  if (c === "image_rejected") return "Das Foto konnte nicht gelesen werden – bitte als JPG/PNG neu aufnehmen.";
+  return "Das hat nicht geklappt. Bitte nochmal versuchen.";
+}
+function stampHTML(g){ return `<div class="stamp g${g}" aria-label="Note ${g}"><span>Note</span><b>${g}</b><span>${GRADE_NAMES[g]}</span></div>`; }
+
+/* ---------- tabs ---------- */
+const TABS = ["vocab","listen","read","gram","grades"];
+document.querySelectorAll("nav.tabs button").forEach(b => b.addEventListener("click", () => { stopSpeak(); if (state.listen) state.listen.playing = false; state.tab = b.dataset.tab; state.confirmDel = null; render(); window.scrollTo(0,0); }));
+function render(){
+  for (const t of TABS) $("#v-" + t).hidden = state.tab !== t;
+  document.querySelectorAll("nav.tabs button").forEach(b => { if (b.dataset.tab === state.tab) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
+  ({vocab: renderVocab, listen: renderListen, read: renderRead, gram: renderGram, grades: renderGrades})[state.tab]();
+}
+function listChips(name, sel){ return `<div class="chips">${allLists().map(l => `<label class="chip"><input type="checkbox" name="${name}" value="${esc(l.id)}" ${sel.includes(l.id)?"checked":""}>${esc(l.name)} <span class="muted">${l.words.length}</span></label>`).join("")}</div>`; }
+function readChips(root, name){ return [...root.querySelectorAll(`input[name="${name}"]:checked`)].map(i => i.value); }
+function unitSelect(id, val){ return `<select id="${id}">${UNITS.map(u => `<option value="${u.n}" ${+val===u.n?"selected":""}>${esc(unitLabel(u.n))}</option>`).join("")}</select>`; }
+const noClaudeNote = what => `<p class="muted">${what} braucht Claude. Öffne die App angemeldet in Claude, dann geht es los. Die Beispiele unten funktionieren immer.</p>`;
+
+/* =================== VOKABELN =================== */
+function renderVocab(){
+  const v = $("#v-vocab");
+  if (state.vsub === "lists") return renderLists();
+  renderQuiz();
+}
+function subnavHTML(){ return `<div class="subnav" role="group" aria-label="Vokabeln"><button class="small" data-sub="quiz" aria-pressed="${state.vsub==="quiz"}">Abfrage</button><button class="small" data-sub="lists" aria-pressed="${state.vsub==="lists"}">Meine Listen</button></div>`; }
+function bindSubnav(v){ v.querySelectorAll("[data-sub]").forEach(b => b.onclick = () => { state.vsub = b.dataset.sub; state.confirmDel = null; renderVocab(); }); }
+
+function renderQuiz(){
+  const v = $("#v-vocab"); const q = state.quiz;
+  if (!state.quizSetup.sel) state.quizSetup.sel = defaultSel();
+  if (!q) {
+    const s = state.quizSetup;
+    v.innerHTML = `${subnavHTML()}
+      <div class="card">
+        <h2>Vokabeltest</h2>
+        ${state.lists.length ? "" : `<p class="muted">Noch keine eigenen Vokabeln – unten sind <span class="badge">Beispiel</span>-Listen. ${OFFLINE ? "Eigene Wörter gibst du unter „Meine Listen“ ein." : "Die Seiten aus deinem Buch scannst du unter „Meine Listen“."}</p>`}
+        <div class="stack"><h3>Listen</h3>${listChips("qsel", s.sel)}</div>
+        <div class="stack"><h3>Abfrage</h3>
+          <div class="seg" role="radiogroup">
+            ${[["en","Englisch → Deutsch"],["de","Deutsch → Englisch"]].map(([k,t]) => `<label><input type="radio" name="qdir" value="${k}" ${s.dir===k?"checked":""}>${t}</label>`).join("")}
+          </div>
+          <div class="seg" role="radiogroup">
+            ${[["audio","Hören & schreiben"],["mix","gemischt"]].map(([k,t]) => `<label><input type="radio" name="qdir" value="${k}" ${s.dir===k?"checked":""}>${t}</label>`).join("")}
+          </div></div>
+        <div class="stack"><h3>Anzahl Wörter</h3>
+          <div class="seg" role="radiogroup">
+            ${[["10","10"],["20","20"],["30","30"],["all","alle"]].map(([k,t]) => `<label><input type="radio" name="qcnt" value="${k}" ${s.count===k?"checked":""}>${t}</label>`).join("")}
+          </div></div>
+        <p class="muted" id="qinfo"></p>
+        <button class="primary" id="qstart">Test starten</button>
+      </div>`;
+    bindSubnav(v);
+    const upd = () => { s.sel = readChips(v, "qsel"); s.dir = $("input[name=qdir]:checked", v).value; s.count = $("input[name=qcnt]:checked", v).value;
+      const n = selectedWords(s.sel).length; const take = s.count === "all" ? n : Math.min(n, +s.count);
+      $("#qinfo").textContent = n ? `${take} von ${n} Vokabeln in zufälliger Reihenfolge.${s.dir === "audio" ? " Du hörst das englische Wort und schreibst es auf." : ""}` : "Wähle mindestens eine Liste.";
+      $("#qstart").disabled = !n; };
+    v.onchange = upd; upd();
+    $("#qstart").onclick = () => {
+      const words = shuffle(selectedWords(s.sel)); const take = s.count === "all" ? words.length : Math.min(words.length, +s.count);
+      const dirs = ["en","de","audio"];
+      state.quiz = { items: words.slice(0, take).map(w => ({...w, dir: s.dir === "mix" ? dirs[Math.floor(Math.random()*3)] : s.dir})), i: 0, shown: false, wrong: [], typed: "", done: false,
+        names: s.sel.map(id => listById(id)?.name).filter(Boolean).join(", ") };
+      renderQuiz(); autoSay();
+    };
+    return;
+  }
+  v.onchange = null;
+  if (q.done) return renderQuizResult();
+  const it = q.items[q.i];
+  const prompt = it.dir === "en" ? it.en : it.de;
+  const label = it.dir === "en" ? "Was heißt das auf Deutsch?" : it.dir === "de" ? "Wie heißt das auf Englisch?" : "Hör zu und schreib das Wort auf Englisch";
+  const typedOk = q.shown && q.typed && (it.dir === "en" ? false : vocabMatch(q.typed, it.en));
+  v.innerHTML = `
+    <div class="card">
+      <div class="qmeta"><span>Wort ${q.i+1} von ${q.items.length}</span><span>${q.wrong.length} Fehler</span></div>
+      <div class="progress"><i style="width:${(q.i/q.items.length)*100}%"></i></div>
+      <div class="flash"><span class="dir">${label}</span>
+        ${it.dir === "audio" ? `<button class="play" id="qplay" aria-label="Wort anhören">${ICON_SAY}</button><span class="muted">Nochmal tippen = nochmal hören</span>`
+          : `<span class="word ${it.dir === "de" ? "de" : ""}">${esc(prompt)}</span>${it.dir === "en" ? `<button class="say small" id="qsay" aria-label="Aussprache anhören">${ICON_SAY}</button>` : ""}`}
+      </div>
+      ${q.shown ? `
+        ${q.typed ? `<p class="yours">Deine Antwort: <b>${esc(q.typed)}</b>${typedOk ? ` <span class="match">✓ passt</span>` : ""}</p>` : ""}
+        <div class="answer ${it.dir !== "en" ? "en" : ""}">${esc(it.dir === "en" ? it.de : it.en)}${it.dir !== "en" ? "" : `<span class="muted" style="font-weight:400;font-size:15px">(${esc(it.en)})</span>`}<button class="say small" id="qsay2" aria-label="Aussprache anhören">${ICON_SAY}</button></div>
+        ${it.dir === "audio" ? `<p class="muted" style="text-align:center">${esc(it.de)}</p>` : ""}
+        <p class="muted" style="text-align:center">Hattest du es richtig${it.dir !== "en" ? " – auch die Rechtschreibung" : ""}?</p>
+        <div class="row"><button class="bad grow" id="qno">✗ Falsch</button><button class="good grow" id="qyes">✓ Richtig</button></div>
+      ` : `
+        <input type="text" id="qtyped" placeholder="${it.dir === "en" ? "Deutsche Bedeutung (optional)" : "Englisches Wort"}" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(q.typed)}" lang="${it.dir === "en" ? "de" : "en"}">
+        <button class="primary" id="qshow">Lösung zeigen</button>
+      `}
+      <button class="ghost small" id="qquit">Test abbrechen</button>
+    </div>`;
+  const p = $("#qplay"); if (p) p.onclick = () => sayWord(it.en);
+  const s1 = $("#qsay"); if (s1) s1.onclick = () => sayWord(it.en);
+  const s2 = $("#qsay2"); if (s2) s2.onclick = () => sayWord(it.en);
+  if (!q.shown) { const inp = $("#qtyped"); inp.addEventListener("keydown", e => { if (e.key === "Enter") $("#qshow").click(); });
+    $("#qshow").onclick = () => { q.typed = inp.value.trim(); q.shown = true; renderQuiz(); if (it.dir === "de") sayWord(it.en); }; }
+  else {
+    const next = wrong => { if (wrong) q.wrong.push(it); q.i++; q.shown = false; q.typed = "";
+      if (q.i >= q.items.length) { q.done = true; const errors = q.wrong.length;
+        addResult({ id: uid("r"), at: Date.now(), kind: "vokabeln", label: q.names, total: q.items.length, errors, grade: gradeFor(errors) }); }
+      renderQuiz(); autoSay(); };
+    $("#qyes").onclick = () => next(false); $("#qno").onclick = () => next(true);
+  }
+  $("#qquit").onclick = () => { stopSpeak(); state.quiz = null; renderQuiz(); };
+}
+function autoSay(){ const q = state.quiz; if (q && !q.done && !q.shown) { const it = q.items[q.i]; if (it.dir === "audio" || it.dir === "en") sayWord(it.en); } }
+function renderQuizResult(){
+  const q = state.quiz; const e = q.wrong.length; const g = gradeFor(e);
+  $("#v-vocab").innerHTML = `
+    <div class="card">
+      <h2>Ergebnis</h2>
+      <div class="result">${stampHTML(g)}
+        <div class="stack"><p style="font-size:20px;font-weight:700">${e} Fehler bei ${q.items.length} Wörtern</p>
+        <p class="muted">${q.items.length - e} richtig · Bewertung nach deiner Notentabelle</p></div></div>
+      ${e ? `<h3>Das übst du nochmal</h3><div class="miss">${q.wrong.map(w => `<div><b>${esc(w.en)}</b><span>${esc(w.de)}</span></div>`).join("")}</div>` : `<p>Alles gewusst. Well done!</p>`}
+      <div class="row">${e ? `<button class="primary grow" id="qretry">Falsche wiederholen</button>` : ""}<button class="grow" id="qnew">Neuer Test</button></div>
+    </div>`;
+  $("#qnew").onclick = () => { state.quiz = null; renderQuiz(); };
+  const r = $("#qretry"); if (r) r.onclick = () => { state.quiz = { items: shuffle(q.wrong), i: 0, shown: false, wrong: [], typed: "", done: false, names: q.names + " (Wiederholung)" }; renderQuiz(); autoSay(); };
+}
+
+function renderLists(){
+  const v = $("#v-vocab"); v.onchange = null;
+  if (state.draft) return renderDraft();
+  const canImg = !!(sample && sampleCaps && sampleCaps.images);
+  v.innerHTML = `${subnavHTML()}
+    ${OFFLINE ? `<div class="card">
+      <h2>Vokabeln eingeben</h2>
+      <p class="muted">Tipp die Wörter aus dem Buch ab oder füge eine Liste ein – eine Vokabel pro Zeile, z. B. „kitchen – Küche“.</p>
+      <button class="primary" id="bmanual">Neue Liste anlegen</button>
+    </div>` : `<div class="card">
+      <h2>Vokabeln scannen</h2>
+      <p class="muted">Fotografiere die Vokabelseite aus dem Buch oder Heft. Claude liest Englisch und Deutsch aus, du prüfst die Wörter und speicherst sie als Liste.</p>
+      <input type="file" id="fimg" accept="${esc(canImg ? sampleCaps.images.mediaTypes.join(",") : "image/*")}" multiple hidden>
+      <button class="primary" id="bscan" ${canImg ? "" : "disabled"}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+        Foto aufnehmen oder wählen</button>
+      ${canImg ? `<p class="muted">Bis zu ${sampleCaps.images.maxCount} Fotos auf einmal.</p>` : `<p class="muted">Scannen braucht Claude. Öffne die App angemeldet in Claude. Eintippen geht immer.</p>`}
+      <button id="bmanual">Vokabeln eintippen oder einfügen</button>
+    </div>`}
+    <div class="card">
+      <h2>Deine Listen</h2>
+      <div>${allLists().map(l => `
+        <div class="listitem">
+          <div class="grow"><div class="name">${esc(l.name)} ${l.example ? '<span class="badge">Beispiel</span>' : ""}</div><div class="muted">${l.words.length} Vokabeln</div></div>
+          <button class="small" data-edit="${esc(l.id)}">${l.example ? "Ansehen" : "Bearbeiten"}</button>
+        </div>`).join("")}</div>
+      ${state.lists.length ? "" : `<p class="muted">Sobald du eine eigene Liste speicherst, verschwinden die Beispiele.</p>`}
+    </div>`;
+  bindSubnav(v);
+  const f = $("#fimg");
+  if (f) { $("#bscan").onclick = () => f.click();
+    f.onchange = () => { const files = [...f.files]; f.value = ""; if (files.length) scanPhotos(files); }; }
+  $("#bmanual").onclick = () => { state.draft = { id: null, name: nextName(), words: [], paste: true }; renderLists(); };
+  v.querySelectorAll("[data-edit]").forEach(b => b.onclick = () => { const l = listById(b.dataset.edit); state.draft = { id: l.example ? null : l.id, name: l.example ? l.name.replace("Beispiel ", "") : l.name, words: l.words.map(w => ({...w})), created: l.created }; state.confirmDel = null; renderLists(); });
+}
+function nextName(){ return "Liste " + (state.lists.length + 1); }
+function parsePaste(txt){
+  const out = [];
+  for (let line of txt.split(/\r?\n/)) { line = line.trim(); if (!line) continue;
+    const m = line.split(/\s*(?:\t|\s[–—-]\s|\s=\s|:\s|;\s)\s*/);
+    if (m.length >= 2) out.push({ en: m[0].trim(), de: m.slice(1).join(", ").trim() });
+  }
+  return out;
+}
+function renderDraft(){
+  const v = $("#v-vocab"); const d = state.draft;
+  v.innerHTML = `
+    <div class="card">
+      <h2>${d.id ? "Liste bearbeiten" : "Neue Liste"}</h2>
+      ${d.thumbs?.length ? `<div class="thumbs">${d.thumbs.map(u => `<img src="${u}" alt="Foto">`).join("")}</div>` : ""}
+      ${d.scanning ? `<p class="row"><span class="spin"></span> Claude liest die Vokabeln … (ca. 15–40 Sek.)</p>` : ""}
+      <label class="lbl">Name der Liste<input type="text" id="dname" value="${esc(d.name)}"></label>
+      ${d.paste ? `<label class="lbl">Einfügen – eine Vokabel pro Zeile, z. B. „kitchen – Küche“<textarea id="dpaste" placeholder="kitchen – Küche&#10;to get up – aufstehen"></textarea></label><button id="dadd">Übernehmen</button>` : ""}
+      <div class="scroll"><table class="vtable"><tbody>
+        ${d.words.map((w,i) => `<tr><td><input type="text" data-i="${i}" data-k="en" value="${esc(w.en)}" aria-label="Englisch" lang="en" style="font-family:var(--en)"></td><td><input type="text" data-i="${i}" data-k="de" value="${esc(w.de)}" aria-label="Deutsch"></td><td class="x"><button class="ghost small" data-del="${i}" aria-label="Zeile löschen">✕</button></td></tr>`).join("")}
+      </tbody></table></div>
+      <p class="muted">${d.words.length} Vokabeln. Tippe in ein Feld, um Lesefehler zu korrigieren.</p>
+      <div class="row"><button class="small" id="drow">+ Zeile</button>${d.paste ? "" : `<button class="small" id="dpastebtn">Text einfügen</button>`}</div>
+      <div class="row"><button class="primary grow" id="dsave" ${d.words.length && !d.scanning ? "" : "disabled"}>Speichern</button><button class="grow" id="dcancel">Abbrechen</button></div>
+      ${d.id ? (state.confirmDel === d.id
+        ? `<div class="confirm">Liste „${esc(d.name)}“ wirklich löschen?<button class="bad small" id="ddelyes">Ja, löschen</button><button class="small" id="ddelno">Nein</button></div>`
+        : `<button class="ghost small" id="ddel" style="color:var(--bad)">Liste löschen</button>`) : ""}
+    </div>`;
+  const sync = () => { d.name = $("#dname").value; v.querySelectorAll("input[data-i]").forEach(inp => { d.words[+inp.dataset.i][inp.dataset.k] = inp.value; }); };
+  v.querySelectorAll("input").forEach(inp => inp.addEventListener("input", sync));
+  v.querySelectorAll("[data-del]").forEach(b => b.onclick = () => { sync(); d.words.splice(+b.dataset.del, 1); renderDraft(); });
+  $("#drow").onclick = () => { sync(); d.words.push({en:"",de:""}); renderDraft(); const ins = v.querySelectorAll('input[data-k="en"]'); ins[ins.length-1]?.focus(); };
+  const pb = $("#dpastebtn"); if (pb) pb.onclick = () => { sync(); d.paste = true; renderDraft(); };
+  const da = $("#dadd"); if (da) da.onclick = () => { sync(); const add = parsePaste($("#dpaste").value); if (!add.length) { toast("Keine Zeile erkannt. Format: Englisch – Deutsch"); return; } d.words.push(...add); d.paste = false; renderDraft(); };
+  $("#dcancel").onclick = () => { state.draft = null; state.confirmDel = null; renderLists(); };
+  $("#dsave").onclick = async () => { sync(); const words = d.words.map(w => ({en: String(w.en).trim(), de: String(w.de).trim()})).filter(w => w.en && w.de);
+    if (!words.length) { toast("Trag mindestens eine vollständige Vokabel ein."); return; }
+    const list = { id: d.id || uid("l"), name: d.name.trim() || nextName(), words, created: d.created && d.id ? d.created : Date.now() };
+    const ix = state.lists.findIndex(l => l.id === list.id); if (ix >= 0) state.lists[ix] = list; else state.lists.push(list);
+    state.quizSetup.sel = [list.id];
+    state.draft = null; renderLists(); toast(`„${list.name}“ gespeichert – ${words.length} Vokabeln`); await saveList(list); };
+  const dd = $("#ddel"); if (dd) dd.onclick = () => { sync(); state.confirmDel = d.id; renderDraft(); };
+  const dy = $("#ddelyes"); if (dy) dy.onclick = async () => { const id = d.id; state.lists = state.lists.filter(l => l.id !== id); state.quizSetup.sel = null; state.draft = null; state.confirmDel = null; renderLists(); toast("Liste gelöscht"); await removeList(id); };
+  const dn = $("#ddelno"); if (dn) dn.onclick = () => { state.confirmDel = null; renderDraft(); };
+}
+async function shrink(file){
+  try {
+    const url = URL.createObjectURL(file); const img = new Image(); img.src = url; await img.decode();
+    const max = 1800; const sc = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement("canvas"); c.width = Math.round(img.naturalWidth * sc); c.height = Math.round(img.naturalHeight * sc);
+    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+    const blob = await new Promise(r => c.toBlob(r, "image/jpeg", 0.85)); return blob || file;
+  } catch(e){ return file; }
+}
+async function scanPhotos(files){
+  const max = sampleCaps?.images?.maxCount || 4; files = files.slice(0, max);
+  const blobs = await Promise.all(files.map(shrink));
+  const d = state.draft = { id: null, name: nextName(), words: [], scanning: true, thumbs: blobs.map(b => URL.createObjectURL(b)) };
+  renderDraft();
+  const prompt = `${blobs.length > 1 ? "Die " + blobs.length + " Fotos zeigen" : "Das Foto zeigt"} eine Vokabelliste Englisch–Deutsch aus einem deutschen Englisch-Schulbuch (Klasse 5) oder einem Schulheft.
+Lies ALLE Vokabeln vollständig und in der Reihenfolge der Seite aus.
+- "en": das englische Stichwort genau wie abgedruckt (Verben mit "to", unregelmäßige Formen in Klammern übernehmen, z. B. "to buy (bought)").
+- "de": alle deutschen Bedeutungen, durch Komma getrennt.
+- Ignoriere Lautschrift (z. B. [ˈkɪtʃɪn]), Beispielsätze, Merkkästen, Seitenzahlen und Überschriften.
+- Wenn ein Wort schwer lesbar ist, gib deine beste Lesung an.
+Wenn eine Unit, ein Abschnitt oder eine Überschrift erkennbar ist, gib sie als "title" an (z. B. "Unit 3 Station 1"), sonst "".
+Antworte NUR mit JSON: {"title": "...", "words": [{"en": "...", "de": "..."}]}`;
+  try {
+    const r = await sample.json(prompt, { images: blobs, modelTier: "default" });
+    const words = (Array.isArray(r?.words) ? r.words : []).map(w => ({en: String(w.en||"").trim(), de: String(w.de||"").trim()})).filter(w => w.en);
+    if (state.draft !== d) return;
+    d.words = words; if (r?.title) d.name = String(r.title).slice(0, 60);
+    if (!words.length) toast("Keine Vokabeln erkannt. Versuch ein schärferes Foto oder tipp sie ein.");
+  } catch(e){ if (state.draft === d) toast(errText(e)); }
+  d.scanning = false; if (state.draft === d && state.tab === "vocab") renderDraft();
+}
+
+/* =================== shared: comprehension questions =================== */
+function questionsHTML(item, prefix){
+  return `<div class="qlist">${item.questions.map((q, qi) => {
+    const pick = item.answers[qi];
+    return `<fieldset class="q" style="border:0;margin:0;padding:0"><legend class="qt"><span class="n">${qi+1}</span>${esc(q.q)}</legend>
+      <div class="opts">${q.options.map((o, oi) => {
+        let cls = ""; if (item.checked) { if (oi === q.answer) cls = "right"; else if (pick === oi) cls = "wrong"; }
+        return `<label class="opt ${cls}"><input type="radio" name="${prefix}${qi}" value="${oi}" ${pick === oi ? "checked" : ""} ${item.checked ? "disabled" : ""}>${esc(o)}</label>`; }).join("")}</div></fieldset>`;
+  }).join("")}</div>`;
+}
+function bindQuestions(root, item, prefix){
+  root.querySelectorAll(`input[type=radio][name^="${prefix}"]`).forEach(r => r.addEventListener("change", () => { item.answers[+r.name.slice(prefix.length)] = +r.value; }));
+}
+function mcErrors(item){ return item.questions.reduce((n, q, i) => n + (item.answers[i] === q.answer ? 0 : 1), 0); }
+function wordsHTML(words){ return words?.length ? `<details><summary class="muted">Wörterhilfe (${words.length})</summary><div class="stack" style="margin-top:8px;gap:4px">${words.map(w => `<span><b style="font-family:var(--en)">${esc(w.en)}</b> – ${esc(w.de)}</span>`).join("")}</div></details>` : ""; }
+function normQuestions(arr){ return (Array.isArray(arr) ? arr : []).map(q => ({ q: String(q.q || ""), options: (Array.isArray(q.options) ? q.options : []).map(String).slice(0, 4), answer: Math.round(Number(q.answer)) })).filter(q => q.q && q.options.length >= 2 && q.answer >= 0 && q.answer < q.options.length); }
+
+/* =================== HÖREN =================== */
+function renderListen(){
+  const v = $("#v-listen"); const s = state.listenSetup; const L = state.listen;
+  if (!s.unit) s.unit = curUnit();
+  if (!L) {
+    v.innerHTML = OFFLINE ? `
+      <div class="card">
+        <h2>Hörverstehen</h2>
+        <p class="muted">Wähle einen Hörtext. Du hörst ihn – ohne mitzulesen – und beantwortest die Fragen. Der Text wird mit einer englischen Stimme deines Geräts vorgelesen.</p>
+        <div>${LISTEN_BUILTIN.map(b => `<div class="listitem"><div class="grow"><div class="name" style="font-family:var(--en)">${esc(b.title)}</div><div class="muted">${esc(unitLabel(b.u))} · ${b.questions.length} Fragen</div></div><button class="small" data-lb="${b.id}">Starten</button></div>`).join("")}</div>
+      </div>
+      ${linksCard()}
+      ${ttsNote()}` : `
+      <div class="card">
+        <h2>Hörverstehen</h2>
+        <p class="muted">Claude schreibt einen kurzen Hörtext passend zur Unit. Du hörst ihn – ohne mitzulesen – und beantwortest die Fragen. Der Text wird mit einer englischen Stimme deines Geräts vorgelesen.</p>
+        <div class="row">
+          <label class="lbl grow">Unit${unitSelect("lunit", s.unit)}</label>
+          <label class="lbl" style="flex:0 0 120px">Länge<select id="llen">${["kurz","mittel","lang"].map(k => `<option ${s.len===k?"selected":""}>${k}</option>`).join("")}</select></label>
+        </div>
+        <details><summary class="muted">Eigene Vokabeln einbauen (optional)</summary><div style="margin-top:8px">${listChips("lsel", s.sel)}</div></details>
+        <button class="primary" id="lgen" ${sample ? "" : "disabled"}>Hörtext erstellen</button>
+        ${sample ? `<p class="muted" id="lstatus"></p>` : noClaudeNote("Neue Hörtexte erstellen")}
+      </div>
+      <div class="card">
+        <h2>Fertige Hörtexte</h2>
+        <div>${LISTEN_BUILTIN.map(b => `<div class="listitem"><div class="grow"><div class="name" style="font-family:var(--en)">${esc(b.title)}</div><div class="muted">${esc(unitLabel(b.u))} · ${b.questions.length} Fragen</div></div><button class="small" data-lb="${b.id}">Starten</button></div>`).join("")}</div>
+      </div>
+      ${linksCard()}
+      ${ttsNote()}`;
+    const upd = () => { s.unit = +$("#lunit").value; s.len = $("#llen").value; s.sel = readChips(v, "lsel"); };
+    if (!OFFLINE) { v.onchange = upd; $("#lgen").onclick = () => generateListen(); }
+    v.querySelectorAll("[data-lb]").forEach(b => b.onclick = () => { const x = LISTEN_BUILTIN.find(t => t.id === b.dataset.lb); startListen(JSON.parse(JSON.stringify(x))); });
+    return;
+  }
+  v.onchange = null;
+  const errs = L.checked ? mcErrors(L) : 0;
+  v.innerHTML = `
+    <div class="card">
+      <div class="row" style="justify-content:space-between"><h2 style="font-family:var(--en);font-weight:600">${esc(L.title)}</h2><span class="badge">${esc("Unit " + L.u)}</span></div>
+      <div class="player">
+        <button class="play ${L.playing ? "on" : ""}" id="lplay" aria-label="${L.playing ? "Anhalten" : "Abspielen"}">${L.playing ? ICON_STOP : ICON_PLAY}</button>
+        <div class="info">
+          <b>${L.playing ? "Hör gut zu …" : L.plays ? `${L.plays}× gehört` : "Tippe auf Play"}</b>
+          <div class="seg" role="radiogroup" aria-label="Tempo">
+            ${[["normal","normal"],["slow","langsam"]].map(([k,t]) => `<label><input type="radio" name="lrate" value="${k}" ${L.rate===k?"checked":""}>${t}</label>`).join("")}
+          </div>
+        </div>
+      </div>
+      <p class="muted">Tipp: Erst einmal ganz hören, dann die Fragen lesen und ein zweites Mal hören – wie in der Schulaufgabe.</p>
+    </div>
+    <div class="card">
+      <h2>Questions</h2>
+      ${questionsHTML(L, "lq")}
+      ${L.checked ? `<div class="result">${stampHTML(L.graded)}<div class="stack"><p style="font-size:20px;font-weight:700">${errs} Fehler bei ${L.questions.length} Fragen</p><p class="muted">Grün = richtige Lösung</p></div></div>`
+        : `<button class="primary" id="lcheck">Auswerten</button>`}
+    </div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between"><h2>Text</h2><button class="small" id="ltext">${L.showText ? "Ausblenden" : "Mitlesen"}</button></div>
+      ${L.showText ? `<div class="paper dialog" id="ldialog">${L.lines.map((ln, i) => `<div class="ln ${L.cur === i ? "cur" : ""}" data-ln="${i}"><span class="who">${esc(ln.who)}</span><span class="tx">${esc(ln.text)}</span></div>`).join("")}</div><p class="muted">Tippe auf eine Zeile, um nur diese zu hören.</p>` : `<p class="muted">${L.checked ? "Jetzt kannst du den Text mitlesen und schwierige Stellen nochmal hören." : "Erst hören und antworten – dann mitlesen."}</p>`}
+      ${wordsHTML(L.words)}
+    </div>
+    <div class="row"><button class="grow" id="lnew">${L.src === "claude" ? "Neuer Hörtext" : "Andere Übung"}</button><button class="ghost grow" id="lback">Zurück</button></div>`;
+  bindQuestions(v, L, "lq");
+  v.querySelectorAll("input[name=lrate]").forEach(r => r.onchange = () => { L.rate = r.value; });
+  $("#lplay").onclick = () => {
+    if (L.playing) { stopSpeak(); L.playing = false; L.cur = -1; renderListen(); return; }
+    playLines(L, 0);
+  };
+  const c = $("#lcheck"); if (c) c.onclick = () => {
+    if (L.answers.filter(a => a !== undefined).length < L.questions.length && !L.warned) { L.warned = true; toast("Noch nicht alle Fragen beantwortet – nochmal tippen zum Auswerten."); return; }
+    L.checked = true; const e = mcErrors(L); L.graded = gradeFor(e);
+    addResult({ id: uid("r"), at: Date.now(), kind: "hoeren", label: L.title, total: L.questions.length, errors: e, grade: L.graded }); renderListen(); };
+  $("#ltext").onclick = () => { L.showText = !L.showText; renderListen(); };
+  v.querySelectorAll("[data-ln]").forEach(el => el.onclick = () => playLines(L, +el.dataset.ln, true));
+  $("#lnew").onclick = () => { stopSpeak(); if (L.src === "claude") generateListen(); else { state.listen = null; renderListen(); } };
+  $("#lback").onclick = () => { stopSpeak(); state.listen = null; renderListen(); window.scrollTo(0,0); };
+}
+function playLines(L, from, single){
+  const gender = Object.fromEntries((L.speakers || []).map(s => [s.name, s.gender]));
+  const parts = [];
+  L.lines.forEach((ln, i) => { if (i < from || (single && i !== from)) return; for (const sent of splitSentences(ln.text)) parts.push({ text: sent, gender: gender[ln.who] || "", spk: ln.who, idx: i }); });
+  const ok = speakParts(parts, { rate: L.rate === "slow" ? 0.72 : 0.95,
+    onPart: i => { L.cur = i; document.querySelectorAll("#ldialog .ln").forEach(el => el.classList.toggle("cur", +el.dataset.ln === i)); },
+    onEnd: () => { L.playing = false; L.cur = -1; if (state.tab === "listen" && state.listen === L) renderListen(); } });
+  if (!ok) { L.showText = true; renderListen(); return; }
+  if (!single) L.plays++;
+  L.playing = true; renderListen();
+}
+function startListen(data, src = "builtin"){
+  stopSpeak();
+  state.listen = { ...data, src, answers: [], checked: false, graded: null, plays: 0, showText: false, rate: "normal", playing: false, cur: -1 };
+  renderListen(); window.scrollTo(0,0);
+}
+function vocabForPrompt(sel){ const w = shuffle(selectedWords(sel || [])).slice(0, 25); return w.length ? `\nBaue möglichst viele dieser Lernwörter ein:\n${w.map(x => `${x.en} = ${x.de}`).join("\n")}\n` : ""; }
+async function generateListen(){
+  const s = state.listenSetup; if (!sample) return;
+  const U = UNITS[s.unit - 1]; const lines = {kurz:"6–8", mittel:"10–12", lang:"14–16"}[s.len];
+  stopSpeak(); state.listen = null; renderListen();
+  const btn = $("#lgen"), st = $("#lstatus"); if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Claude schreibt …'; } if (st) st.textContent = "Das dauert etwa 10–40 Sekunden.";
+  const prompt = `Du bist Englischlehrer an einem bayerischen Gymnasium, 5. Klasse (1. Lernjahr), Lehrbuch Green Line 1 Bayern.
+Schreibe einen NEUEN, eigenen Hörtext (Dialog) zum Thema von ${unitLabel(U.n)} – ${U.topic}. Schauplatz gern London/Greenwich, Figuren sind Kinder um 11 Jahre, ihre Familien oder Lehrer. Erfinde eigene Namen.
+Regeln:
+- ${lines} Dialogzeilen, 2–3 Sprecher, natürliches, einfaches britisches Englisch.
+- Nur Grammatik bis einschließlich Unit ${U.n} (bisher gelernt: ${UNITS.slice(0, U.n).map(u => u.gram).join("; ")}). Nichts darüber hinaus.
+- Wortschatz einer 5. Klasse; schwierige Wörter in "words" mit deutscher Bedeutung.
+- 5 Fragen auf Englisch zum Hörtext: Mischung aus Multiple Choice (3 Optionen) und "True or false: …" (Optionen ["true","false"]). Die Fragen müssen eindeutig nur durch Zuhören lösbar sein. "answer" = Index der richtigen Option (0-basiert). Verteile die richtigen Positionen.
+- "gender" je Sprecher: "f" oder "m".${vocabForPrompt(s.sel)}
+Antworte NUR mit JSON: {"title": "englischer Titel", "speakers": [{"name": "...", "gender": "f"}], "lines": [{"who": "Name", "text": "..."}], "questions": [{"q": "...", "options": ["...","..."], "answer": 0}], "words": [{"en": "...", "de": "..."}]}`;
+  try {
+    const r = await sample.json(prompt, { modelTier: "default", cache: false });
+    const lns = (Array.isArray(r?.lines) ? r.lines : []).map(l => ({ who: String(l.who || "").slice(0, 20), text: String(l.text || "") })).filter(l => l.text);
+    const qs = normQuestions(r?.questions);
+    if (!lns.length || !qs.length) throw { code: "bad" };
+    startListen({ title: String(r.title || "Listening"), u: U.n, speakers: Array.isArray(r.speakers) ? r.speakers : [], lines: lns, questions: qs, words: Array.isArray(r.words) ? r.words : [] }, "claude");
+  } catch(e){ state.listen = null; renderListen(); toast(errText(e)); }
+}
+function linksCard(){
+  return `<div class="card">
+    <h2>Mehr zum Hören im Internet</h2>
+    <p class="muted">Kostenlose Hörübungen mit echten Sprechern (öffnet sich in einem neuen Fenster):</p>
+    <div class="links">
+      <a href="https://learnenglishkids.britishcouncil.org/listen-watch" target="_blank" rel="noopener">British Council · LearnEnglish Kids – Listen &amp; watch</a>
+      <a href="https://learnenglishteens.britishcouncil.org/skills/listening" target="_blank" rel="noopener">British Council · LearnEnglish Teens – Listening</a>
+      <a href="https://www.bbc.co.uk/learningenglish" target="_blank" rel="noopener">BBC Learning English</a>
+    </div>
+    <p class="muted">Die Original-Hörtexte zum Buch gibt es mit dem Audio zum Green-Line-Workbook.</p>
+  </div>`;
+}
+function ttsNote(){
+  if (!TTS.ok) return `<p class="note">Dieses Gerät kann keinen Text vorlesen. Du kannst die Texte trotzdem lesen und die Fragen beantworten.</p>`;
+  if (TTS.ok && !TTS.voices.length) return `<p class="muted">Hinweis: Falls nichts zu hören ist, installiere in den Geräte-Einstellungen eine englische Stimme (am besten Englisch – Großbritannien).</p>`;
+  return "";
+}
+
+/* =================== LESEN =================== */
+function renderRead(){
+  const v = $("#v-read"); const s = state.readSetup; const R = state.read;
+  if (!s.unit) s.unit = curUnit();
+  if (!R) {
+    v.innerHTML = OFFLINE ? `
+      <div class="card">
+        <h2>Leseverstehen</h2>
+        <p class="muted">Wähle einen Lesetext. Danach kommen Ankreuzfragen und Fragen zum Beantworten in ganzen Sätzen.</p>
+        <div>${READ_BUILTIN.map(b => `<div class="listitem"><div class="grow"><div class="name" style="font-family:var(--en)">${esc(b.title)}</div><div class="muted">${esc(unitLabel(b.u))} · ${b.questions.length + b.open.length} Fragen</div></div><button class="small" data-rb="${b.id}">Starten</button></div>`).join("")}</div>
+      </div>` : `
+      <div class="card">
+        <h2>Leseverstehen</h2>
+        <p class="muted">Claude schreibt einen kurzen Lesetext passend zur Unit, mit Ankreuzfragen und Fragen zum Beantworten in ganzen Sätzen.</p>
+        <div class="row">
+          <label class="lbl grow">Unit${unitSelect("runit", s.unit)}</label>
+          <label class="lbl" style="flex:0 0 120px">Länge<select id="rlen">${["kurz","mittel","lang"].map(k => `<option ${s.len===k?"selected":""}>${k}</option>`).join("")}</select></label>
+        </div>
+        <details><summary class="muted">Eigene Vokabeln einbauen (optional)</summary><div style="margin-top:8px">${listChips("rsel", s.sel)}</div></details>
+        <button class="primary" id="rgen" ${sample ? "" : "disabled"}>Lesetext erstellen</button>
+        ${sample ? `<p class="muted" id="rstatus"></p>` : noClaudeNote("Neue Lesetexte erstellen")}
+      </div>
+      <div class="card">
+        <h2>Fertige Lesetexte</h2>
+        <div>${READ_BUILTIN.map(b => `<div class="listitem"><div class="grow"><div class="name" style="font-family:var(--en)">${esc(b.title)}</div><div class="muted">${esc(unitLabel(b.u))} · ${b.questions.length + b.open.length} Fragen</div></div><button class="small" data-rb="${b.id}">Starten</button></div>`).join("")}</div>
+      </div>`;
+    if (!OFFLINE) { v.onchange = () => { s.unit = +$("#runit").value; s.len = $("#rlen").value; s.sel = readChips(v, "rsel"); };
+      $("#rgen").onclick = () => generateRead(); }
+    v.querySelectorAll("[data-rb]").forEach(b => b.onclick = () => { const x = READ_BUILTIN.find(t => t.id === b.dataset.rb); startRead(JSON.parse(JSON.stringify(x))); });
+    return;
+  }
+  v.onchange = null;
+  const mcE = R.checked ? mcErrors(R) : 0;
+  const openE = R.open.reduce((n, o) => n + (o.mark === "no" ? 1 : 0), 0);
+  const allMarked = R.open.every(o => o.mark);
+  v.innerHTML = `
+    <div class="card">
+      <div class="row" style="justify-content:space-between"><span class="badge">${esc("Unit " + R.u)}</span><button class="small" id="rsay">${ICON_SAY} ${R.playing ? "Stopp" : "Vorlesen"}</button></div>
+      <div class="paper"><span class="ttl">${esc(R.title)}</span>${String(R.text).split(/\n+/).map(p => `<p>${esc(p)}</p>`).join("")}</div>
+      ${wordsHTML(R.words)}
+    </div>
+    <div class="card">
+      <h2>A · Tick the right answer</h2>
+      ${questionsHTML(R, "rq")}
+      ${R.checked ? `<p class="muted">${mcE} Fehler · Grün = richtige Lösung</p>` : `<button class="primary" id="rcheck">Ankreuzfragen auswerten</button>`}
+    </div>
+    ${R.open.length ? `<div class="card">
+      <h2>B · Answer the questions</h2>
+      <p class="muted">Antworte auf Englisch in ganzen Sätzen.</p>
+      ${R.open.map((o, i) => `<div class="stack">
+        <p class="qt" style="font-family:var(--en);font-size:18px;font-weight:600"><span class="muted" style="font-family:var(--body);margin-right:6px">${i+1}</span>${esc(o.q)}</p>
+        <textarea id="ro${i}" lang="en" spellcheck="false" style="min-height:70px;font-family:var(--en);font-size:17px" ${o.shown ? "readonly" : ""}>${esc(o.mine || "")}</textarea>
+        ${o.shown ? `<div class="model"><span class="muted" style="font-family:var(--body)">Musterlösung:</span> ${esc(o.model)}</div>
+          ${o.fb ? `<p class="feedback">${esc(o.fb)}</p>` : ""}
+          <div class="row"><button class="small ${o.mark==="no"?"bad":""}" data-mark="${i}:no">✗ Falsch</button><button class="small ${o.mark==="ok"?"good":""}" data-mark="${i}:ok">✓ Richtig</button>${sample && (o.mine||"").trim() ? `<button class="small ghost" data-oc="${i}" ${o.checking?"disabled":""}>${o.checking ? '<span class="spin"></span> prüft …' : "Von Claude prüfen lassen"}</button>` : ""}</div>`
+        : `<button class="small" data-os="${i}">Lösung zeigen</button>`}
+      </div>`).join("")}
+    </div>` : ""}
+    ${R.graded ? `<div class="card"><div class="result">${stampHTML(R.graded)}<p style="font-size:20px;font-weight:700">${mcE + openE} Fehler bei ${R.questions.length + R.open.length} Fragen</p></div></div>`
+      : `<button class="primary" id="rgrade" ${R.checked && allMarked ? "" : "disabled"}>Note berechnen</button>${R.checked && allMarked ? "" : `<p class="muted" style="text-align:center">Werte zuerst Teil A aus und markiere jede Antwort in Teil B.</p>`}`}
+    <div class="row"><button class="grow" id="rnew">${R.src === "claude" ? "Neuer Lesetext" : "Andere Übung"}</button><button class="ghost grow" id="rback">Zurück</button></div>`;
+  bindQuestions(v, R, "rq");
+  $("#rsay").onclick = () => {
+    if (R.playing) { stopSpeak(); R.playing = false; renderRead(); return; }
+    const parts = [{text: R.title}, ...splitSentences(String(R.text).replace(/\n+/g, " ")).map(t => ({text: t}))];
+    if (speakParts(parts, { rate: 0.9, onEnd: () => { R.playing = false; if (state.read === R && state.tab === "read") renderRead(); } })) { R.playing = true; renderRead(); }
+  };
+  const c = $("#rcheck"); if (c) c.onclick = () => { R.checked = true; renderRead(); };
+  R.open.forEach((o, i) => { const ta = $("#ro" + i); if (ta && !o.shown) ta.oninput = () => o.mine = ta.value; });
+  v.querySelectorAll("[data-os]").forEach(b => b.onclick = () => { const o = R.open[+b.dataset.os]; o.mine = $("#ro" + b.dataset.os).value; o.shown = true; renderRead(); });
+  v.querySelectorAll("[data-mark]").forEach(b => b.onclick = () => { const [i, m] = b.dataset.mark.split(":"); R.open[+i].mark = m; R.graded = null; renderRead(); });
+  v.querySelectorAll("[data-oc]").forEach(b => b.onclick = () => checkOpen(R, +b.dataset.oc));
+  const g = $("#rgrade"); if (g) g.onclick = () => { const e = mcErrors(R) + R.open.reduce((n, o) => n + (o.mark === "no" ? 1 : 0), 0); R.graded = gradeFor(e);
+    addResult({ id: uid("r"), at: Date.now(), kind: "lesen", label: R.title, total: R.questions.length + R.open.length, errors: e, grade: R.graded }); renderRead(); };
+  $("#rnew").onclick = () => { stopSpeak(); if (R.src === "claude") generateRead(); else { state.read = null; renderRead(); } };
+  $("#rback").onclick = () => { stopSpeak(); state.read = null; renderRead(); window.scrollTo(0,0); };
+}
+function startRead(data, src = "builtin"){
+  stopSpeak();
+  state.read = { ...data, src, answers: [], checked: false, graded: null, playing: false, open: (data.open || []).map(o => ({...o, mine: "", shown: false, mark: null})) };
+  renderRead(); window.scrollTo(0,0);
+}
+async function generateRead(){
+  const s = state.readSetup; if (!sample) return;
+  const U = UNITS[s.unit - 1]; const len = {kurz:"80–110", mittel:"130–170", lang:"190–240"}[s.len];
+  stopSpeak(); state.read = null; renderRead();
+  const btn = $("#rgen"), st = $("#rstatus"); if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Claude schreibt …'; } if (st) st.textContent = "Das dauert etwa 10–40 Sekunden.";
+  const prompt = `Du bist Englischlehrer an einem bayerischen Gymnasium, 5. Klasse (1. Lernjahr), Lehrbuch Green Line 1 Bayern.
+Schreibe einen NEUEN, eigenen Lesetext (Geschichte, Blogeintrag, E-Mail oder kurzer Bericht) zum Thema von ${unitLabel(U.n)} – ${U.topic}. Figuren sind Kinder um 11 Jahre, gern in London/Greenwich. Eigene Namen erfinden.
+Regeln:
+- ${len} Wörter, 2–3 Absätze (Absätze mit \\n trennen), einfaches britisches Englisch.
+- Nur Grammatik bis einschließlich Unit ${U.n} (bisher gelernt: ${UNITS.slice(0, U.n).map(u => u.gram).join("; ")}).
+- "questions": 5 Fragen auf Englisch, Mischung aus Multiple Choice (3 Optionen) und "True or false: …" (Optionen ["true","false"]). "answer" = Index der richtigen Option (0-basiert), Positionen verteilen.
+- "open": 2 Fragen auf Englisch, die man in einem ganzen Satz beantwortet, mit kurzer Musterantwort "model".
+- "words": schwierige Wörter mit deutscher Bedeutung.${vocabForPrompt(s.sel)}
+Antworte NUR mit JSON: {"title": "...", "text": "...", "questions": [{"q": "...", "options": ["..."], "answer": 0}], "open": [{"q": "...", "model": "..."}], "words": [{"en": "...", "de": "..."}]}`;
+  try {
+    const r = await sample.json(prompt, { modelTier: "default", cache: false });
+    const qs = normQuestions(r?.questions);
+    if (!r?.text || !qs.length) throw { code: "bad" };
+    const open = (Array.isArray(r.open) ? r.open : []).map(o => ({ q: String(o.q || ""), model: String(o.model || "") })).filter(o => o.q).slice(0, 3);
+    startRead({ title: String(r.title || "Reading"), u: U.n, text: String(r.text), questions: qs, open, words: Array.isArray(r.words) ? r.words : [] }, "claude");
+  } catch(e){ state.read = null; renderRead(); toast(errText(e)); }
+}
+async function checkOpen(R, i){
+  const o = R.open[i]; if (!sample || !(o.mine || "").trim()) return;
+  o.checking = true; renderRead();
+  const prompt = `Du bist eine freundliche Englischlehrerin (5. Klasse, 1. Lernjahr). Prüfe die Schülerantwort auf eine Frage zum Lesetext.
+Die Antwort ist richtig, wenn der Inhalt stimmt und sie verständliches Englisch ist. Kleine Rechtschreibfehler sind ok, nenne sie aber. Schreib einen kurzen Hinweis auf Deutsch an das Kind (max. 2 Sätze).
+Antworte NUR mit JSON: {"richtig": true, "hinweis": "..."}
+
+Text: ${R.text}
+Frage: ${o.q}
+Musterantwort: ${o.model}
+Schülerantwort: ${o.mine}`;
+  try { const r = await sample.json(prompt, { modelTier: "quick" }); o.mark = r?.richtig ? "ok" : "no"; o.fb = String(r?.hinweis || ""); R.graded = null; }
+  catch(e){ toast(errText(e)); }
+  o.checking = false; if (state.read === R) renderRead();
+}
+
+/* =================== GRAMMATIK =================== */
+function renderGram(){
+  const v = $("#v-gram"); const X = state.gram;
+  if (!state.gramUnit) state.gramUnit = curUnit();
+  if (!X) {
+    v.innerHTML = `
+      <div class="card">
+        <h2>Grammatik</h2>
+        <p class="muted">Wähle ein Thema: kurze Regel, dann Lückensätze zum Einsetzen. Die Zuordnung zu den Units ist ungefähr – deine Lehrkraft kann anders verteilen.</p>
+        <div class="row"><label class="lbl grow">Gemischte Übung bis${unitSelect("gunit", state.gramUnit)}</label><button class="primary" id="gmix" style="align-self:flex-end">Mischen</button></div>
+      </div>
+      <div class="card">
+        ${UNITS.map(u => `<div class="unitgrp"><div class="uh"><b>Unit ${u.n}</b><span class="muted" style="font-family:var(--en);font-style:italic">${esc(u.t)}</span></div>
+          <div class="topics">${G.filter(g => g.u === u.n).map(g => `<button data-g="${g.id}">${esc(g.t)}${state.done[g.id] ? ` <span class="done" aria-label="schon geübt">✓</span>` : ""}</button>`).join("")}</div></div>`).join("")}
+      </div>`;
+    $("#gunit").onchange = e => { state.gramUnit = +e.target.value; };
+    $("#gmix").onclick = () => { const pool = []; G.filter(g => g.u <= state.gramUnit).forEach(g => g.x.forEach(x => pool.push({...x, from: g.t}))); state.gram = { topic: null, mix: true, items: shuffle(pool).slice(0, 12), checked: false, vals: [], src: "builtin" }; renderGram(); window.scrollTo(0,0); };
+    v.querySelectorAll("[data-g]").forEach(b => b.onclick = () => { const g = gById(b.dataset.g); state.gram = { topic: g.id, items: g.x.map(x => ({...x})), checked: false, vals: [], src: "builtin", showRule: true }; renderGram(); window.scrollTo(0,0); });
+    return;
+  }
+  const g = X.topic ? gById(X.topic) : null;
+  const errs = X.checked ? X.items.reduce((n, it, i) => n + (isRight(X.vals[i], it.a) ? 0 : 1), 0) : 0;
+  v.innerHTML = `
+    <div class="card">
+      <div class="row" style="justify-content:space-between"><h2>${g ? esc(g.t) : `Gemischt bis Unit ${state.gramUnit}`}</h2>${g ? `<span class="badge">Unit ${g.u}</span>` : ""}</div>
+      ${g ? `<details ${X.showRule ? "open" : ""} id="grule"><summary><b>Regel</b></summary><div class="rule" style="margin-top:8px">${g.r}</div></details>` : ""}
+    </div>
+    <div class="card">
+      <h2>${X.src === "claude" ? "Neue Übung" : "Fill in"}</h2>
+      <p class="muted">Setz die richtige Form ein. Wörter in Klammern zeigen dir das Verb oder die Bedeutung.</p>
+      <div class="gaps">${X.items.map((it, i) => {
+        const val = X.vals[i] ?? ""; const ok = X.checked && isRight(val, it.a); const cls = X.checked ? (ok ? "ok" : "no") : "";
+        const [pre, ...rest] = String(it.s).split("___"); const post = rest.join("___");
+        const field = Array.isArray(it.o) && it.o.length
+          ? `<select data-gi="${i}" class="${cls}" ${X.checked ? "disabled" : ""} aria-label="Lücke ${i+1}"><option value="">…</option>${it.o.map(o => `<option ${val===o?"selected":""}>${esc(o)}</option>`).join("")}</select>`
+          : `<input type="text" data-gi="${i}" class="${cls}" value="${esc(val)}" ${X.checked ? "readonly" : ""} autocomplete="off" autocapitalize="off" spellcheck="false" lang="en" aria-label="Lücke ${i+1}" size="${Math.max(6, Math.min(16, (it.a[0]||"").length + 3))}">`;
+        return `<div class="gap"><span class="n">${i+1}</span><span class="s">${esc(pre)}${field}${esc(post)}${X.checked && !ok ? `<span class="fix">→ ${esc(it.a[0])}</span>` : ""}${X.mix && X.checked && !ok && it.from ? ` <span class="muted" style="font-family:var(--body)">(${esc(it.from)})</span>` : ""}</span></div>`;
+      }).join("")}</div>
+      ${X.checked ? `<div class="result">${stampHTML(X.graded)}<div class="stack"><p style="font-size:20px;font-weight:700">${errs} Fehler bei ${X.items.length} Lücken</p><p class="muted">${errs ? "Rot = falsch, grün daneben die Lösung." : "Alles richtig. Brilliant!"}</p></div></div>
+        <div class="row">${errs ? `<button class="grow" id="gagain">Nochmal versuchen</button>` : ""}${g && !OFFLINE ? `<button class="primary grow" id="gmore" ${sample ? "" : "disabled"}>Neue Sätze von Claude</button>` : g ? `<button class="primary grow" id="gmixtopic">Neu mischen</button>` : `<button class="primary grow" id="gremix">Neu mischen</button>`}</div>`
+        : `<button class="primary" id="gcheck">Prüfen</button>`}
+      ${g && !OFFLINE && !sample && X.checked ? `<p class="muted">Neue Sätze erstellen braucht Claude. Öffne die App angemeldet in Claude.</p>` : ""}
+      ${g && !X.checked && sample ? `<button class="small ghost" id="gmore2">Andere Sätze von Claude</button>` : ""}
+      <p class="muted" id="gstatus"></p>
+    </div>
+    <button class="ghost" id="gback">Zurück zu den Themen</button>`;
+  const det = $("#grule"); if (det) det.ontoggle = () => { X.showRule = det.open; };
+  v.querySelectorAll("[data-gi]").forEach(el => { const h = () => { X.vals[+el.dataset.gi] = el.value; }; el.addEventListener("input", h); el.addEventListener("change", h);
+    el.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); const all = [...v.querySelectorAll("[data-gi]")]; const nx = all[all.indexOf(el) + 1]; if (nx) nx.focus(); else $("#gcheck")?.click(); } }); });
+  const ck = $("#gcheck"); if (ck) ck.onclick = () => {
+    X.checked = true; const e = X.items.reduce((n, it, i) => n + (isRight(X.vals[i], it.a) ? 0 : 1), 0); X.graded = gradeFor(e);
+    if (g) { state.done[g.id] = true; saveSettings(); }
+    addResult({ id: uid("r"), at: Date.now(), kind: "grammatik", label: g ? g.t : `Gemischt bis Unit ${state.gramUnit}`, total: X.items.length, errors: e, grade: X.graded });
+    renderGram(); };
+  const ag = $("#gagain"); if (ag) ag.onclick = () => { X.items.forEach((it, i) => { if (!isRight(X.vals[i], it.a)) X.vals[i] = ""; }); X.checked = false; renderGram(); };
+  const rm = $("#gremix"); if (rm) rm.onclick = () => { const pool = []; G.filter(t => t.u <= state.gramUnit).forEach(t => t.x.forEach(x => pool.push({...x, from: t.t}))); state.gram = { topic: null, mix: true, items: shuffle(pool).slice(0, 12), checked: false, vals: [], src: "builtin" }; renderGram(); window.scrollTo(0,0); };
+  const mt = $("#gmixtopic"); if (mt) mt.onclick = () => { state.gram = { topic: g.id, items: shuffle(g.x).map(x => ({...x})), checked: false, vals: [], src: "builtin", showRule: false }; renderGram(); window.scrollTo(0,0); };
+  const m1 = $("#gmore"); if (m1) m1.onclick = () => moreGram(g);
+  const m2 = $("#gmore2"); if (m2) m2.onclick = () => moreGram(g);
+  $("#gback").onclick = () => { state.gram = null; renderGram(); window.scrollTo(0,0); };
+}
+async function moreGram(g){
+  if (!sample || !g) return;
+  const st = $("#gstatus"); ["#gmore","#gmore2"].forEach(s => { const b = $(s); if (b) { b.disabled = true; b.innerHTML = '<span class="spin"></span> Claude schreibt …'; } });
+  if (st) st.textContent = "Das dauert etwa 10–30 Sekunden.";
+  const plain = g.r.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  const ex = g.x.slice(0, 3).map(x => JSON.stringify(x)).join("\n");
+  const prompt = `Du bist Englischlehrer, 5. Klasse Gymnasium Bayern (Green Line 1, Unit ${g.u}). Erstelle 10 NEUE Lückensätze zum Grammatikthema "${g.t}".
+Regel zum Thema: ${plain}
+Regeln:
+- Jeder Satz hat genau EINE Lücke "___". Hinter die Lücke oder ans Satzende in Klammern die Grundform bzw. "(not …)" oder eine deutsche Hilfe, wenn nötig – wie in den Beispielen.
+- "a": alle richtigen Lösungen für die Lücke (Langform und Kurzform, z. B. ["isn't","is not"]). Nur der Lückeninhalt, nicht der ganze Satz.
+- Bei Auswahl-Aufgaben "o": 2–3 Optionen (eine davon richtig). Sonst "o" weglassen.
+- Einfacher Wortschatz einer 5. Klasse, Alltag britischer Kinder, abwechslungsreich, eindeutig lösbar.
+Beispiele im richtigen Format:
+${ex}
+Antworte NUR mit JSON: {"items": [{"s": "...", "a": ["..."]}]}`;
+  try {
+    const r = await sample.json(prompt, { modelTier: "default", cache: false });
+    const items = (Array.isArray(r?.items) ? r.items : []).map(x => ({ s: String(x.s || ""), a: (Array.isArray(x.a) ? x.a : [x.a]).map(String).filter(Boolean), o: Array.isArray(x.o) && x.o.length ? x.o.map(String) : undefined }))
+      .filter(x => x.s.includes("___") && x.a.length).slice(0, 12);
+    if (!items.length) throw { code: "bad" };
+    if (state.gram && state.gram.topic === g.id) { state.gram = { topic: g.id, items, checked: false, vals: [], src: "claude", showRule: false }; if (state.tab === "gram") { renderGram(); window.scrollTo(0,0); } }
+  } catch(e){ toast(errText(e)); if (state.tab === "gram") renderGram(); }
+}
+
+/* =================== NOTEN =================== */
+const KIND = { vokabeln: "Vokabeltest", hoeren: "Hören", lesen: "Lesen", grammatik: "Grammatik" };
+function renderGrades(){
+  const v = $("#v-grades"); const g = state.settings.grades;
+  const ranges = []; let lo = 0; let bad = false;
+  for (let n = 1; n <= 6; n++) {
+    if (n === 6) { ranges.push(`ab ${lo}`); break; }
+    const hi = Number(g[n]);
+    if (!Number.isFinite(hi) || hi < lo) { ranges.push("entfällt"); if (hi < lo - 1) bad = true; continue; }
+    ranges.push(lo === hi ? `${lo}` : `${lo} – ${hi}`); lo = hi + 1;
+  }
+  v.innerHTML = `
+    <div class="card">
+      <h2>Wo seid ihr im Buch?</h2>
+      <p class="muted">Hören, Lesen und Grammatik starten bei dieser Unit.</p>
+      <label class="lbl">Aktuelle Unit${unitSelect("sunit", curUnit())}</label>
+    </div>
+    <div class="card">
+      <h2>Notentabelle</h2>
+      <p class="muted">Trag pro Note ein, bis zu wie vielen Fehlern sie gilt. Alles darüber ist eine 6. Gilt für alle Übungen.</p>
+      <div class="scroll"><table class="gtable">
+        <thead><tr><th>Note</th><th>bis … Fehler</th><th>Fehlerbereich</th></tr></thead>
+        <tbody>${[1,2,3,4,5,6].map((n,i) => `<tr><td class="n">${n}</td>
+          <td>${n < 6 ? `<input type="number" inputmode="numeric" min="0" step="1" id="g${n}" value="${esc(g[n])}" aria-label="Note ${n}: bis wie viele Fehler">` : `<span class="muted">mehr</span>`}</td>
+          <td class="range">${esc(ranges[i] || "")} <span class="muted">· ${GRADE_NAMES[n]}</span></td></tr>`).join("")}</tbody>
+      </table></div>
+      ${bad ? `<p class="warn">Die Werte sollten von Note 1 bis 5 ansteigen.</p>` : ""}
+    </div>
+    ${OFFLINE ? `<div class="card">
+      <h2>Sicherung</h2>
+      <p class="muted">Listen, Noten und Einstellungen sind nur in diesem Browser auf diesem Gerät gespeichert. Wenn der Browserverlauf gelöscht wird, sind sie weg. Mach ab und zu eine Sicherung – damit kannst du die Daten auch auf ein anderes Gerät übertragen.</p>
+      <div class="row"><button class="grow" id="bexp">Sicherung speichern</button><button class="grow" id="bimp">Sicherung laden</button></div>
+      <input type="file" id="fimp" accept=".json,application/json" hidden>
+      ${state.confirmImp ? `<div class="confirm">Alle jetzigen Daten durch die Sicherung ersetzen?<button class="bad small" id="impyes">Ja, ersetzen</button><button class="small" id="impno">Nein</button></div>` : ""}
+    </div>` : ""}
+    <div class="card">
+      <h2>Verlauf</h2>
+      ${state.results.length ? `<div class="hist">${state.results.slice(0, 40).map(r => `
+        <div class="h"><div><b>${esc(KIND[r.kind] || r.kind)}</b> <span class="muted">· ${esc(r.label || "")}</span><div class="muted">${new Date(r.at).toLocaleDateString("de-DE",{day:"2-digit",month:"2-digit"})} · ${r.errors} Fehler${r.total ? ` / ${r.total}` : ""}</div></div>
+        <span class="g" aria-label="Note ${r.grade}">${r.grade}</span></div>`).join("")}</div>`
+      : `<p class="muted">Hier erscheinen die Noten deiner Übungen.</p>`}
+    </div>`;
+  const be = $("#bexp"); if (be) be.onclick = () => {
+    const data = JSON.stringify({ app: "english-trainer-5", v: 1, saved: new Date().toISOString(), lists: state.lists, settings: state.settings, results: state.results, done: state.done }, null, 1);
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([data], {type: "application/json"}));
+    a.download = "english-trainer-sicherung-" + new Date().toISOString().slice(0, 10) + ".json"; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000); toast("Sicherung gespeichert (Downloads-Ordner)"); };
+  const bi = $("#bimp"), fi = $("#fimp"); if (bi) { bi.onclick = () => fi.click();
+    fi.onchange = async () => { const file = fi.files[0]; fi.value = ""; if (!file) return;
+      try { const j = JSON.parse(await file.text()); if (j.app !== "english-trainer-5" || !Array.isArray(j.lists)) throw 0; state.pendingImp = j; state.confirmImp = true; renderGrades(); }
+      catch(e){ toast("Das ist keine Sicherung dieser App."); } }; }
+  const iy = $("#impyes"); if (iy) iy.onclick = () => { const j = state.pendingImp; state.lists = j.lists; if (j.settings) Object.assign(state.settings, j.settings); state.results = Array.isArray(j.results) ? j.results : []; state.done = j.done || {};
+    state.pendingImp = null; state.confirmImp = false; state.quizSetup.sel = null; lsSave(); renderGrades(); toast(`Sicherung geladen – ${state.lists.length} Listen`); };
+  const ino = $("#impno"); if (ino) ino.onclick = () => { state.pendingImp = null; state.confirmImp = false; renderGrades(); };
+  $("#sunit").onchange = e => { state.settings.unit = +e.target.value; state.listenSetup.unit = null; state.readSetup.unit = null; state.gramUnit = null; saveSettings(); toast(`Aktuelle Unit: ${unitLabel(state.settings.unit)}`); };
+  let deb;
+  for (let n = 1; n <= 5; n++) {
+    $("#g" + n).addEventListener("change", e => { const val = parseInt(e.target.value, 10); g[n] = Number.isFinite(val) && val >= 0 ? val : 0;
+      clearTimeout(deb); deb = setTimeout(saveSettings, 400); renderGrades(); });
+  }
+}
+
+/* =================== boot =================== */
+lsLoad(); render();
+(async () => {
+  if (OFFLINE || !window.claude || !window.claude.use) return;
+  const [dbNs, sNs] = await Promise.all([window.claude.use("db").catch(() => null), window.claude.use("sample").catch(() => null)]);
+  sample = sNs;
+  if (sample) { try { sampleCaps = await sample.limits(); } catch(e){ sampleCaps = null; } }
+  db = dbNs;
+  if (db) {
+    try {
+      const [ls, st, rs] = await Promise.all([db.collection("lists").get(), db.doc("settings/app").get(), db.collection("results").orderBy("at","desc").limit(50).get()]);
+      const lists = ls.docs.map(d => ({ id: d.id, ...d.data() })).filter(l => Array.isArray(l.words)).sort((a,b) => (a.created||0) - (b.created||0));
+      if (lists.length || !state.lists.length) state.lists = lists;
+      else { for (const l of state.lists) await saveList(l); }
+      if (st.exists) { const s = st.data() || {}; if (s.grades) state.settings.grades = s.grades; if (s.unit) state.settings.unit = s.unit; if (s.done) state.done = s.done; }
+      const results = rs.docs.map(d => d.data()); if (results.length) state.results = results;
+      lsSave(); $("#sync").textContent = "gespeichert in Claude";
+    } catch(e){ $("#sync").textContent = "lokal gespeichert"; }
+  }
+  state.quizSetup.sel = state.quizSetup.sel?.filter(id => listById(id)); if (!state.quizSetup.sel?.length) state.quizSetup.sel = null;
+  if (!state.quiz && !state.draft && !state.listen && !state.read && !state.gram) render();
+})();
+})();
+</script>
+
+</body></html>
